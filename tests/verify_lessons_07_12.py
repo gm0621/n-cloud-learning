@@ -93,6 +93,12 @@ for lesson in range(7, 13):
 day06 = (ROOT / "day06" / "index.html").read_text(encoding="utf-8")
 assert 'href="../day07/"' in day06, "day06 must continue to day07"
 
+day09 = (ROOT / "day09" / "index.html").read_text(encoding="utf-8")
+assert "26 封信" not in day09, "day09 must not claim an unsupported exact notification count"
+
+day12 = (ROOT / "day12" / "index.html").read_text(encoding="utf-8")
+assert "18.4 GB" not in day12, "day12 traffic must remain physically possible on the stated 100 Mbps WAN"
+
 js = (ROOT / "assets" / "lesson-practice.js").read_text(encoding="utf-8")
 assert "practicesDone===quizIds.length" in js
 assert "aria-valuenow" in js
