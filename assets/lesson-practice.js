@@ -5,7 +5,11 @@
   const lessonName=body.dataset.lessonName||lesson;
   const practiceKey=`ncloud-learning-${lesson}-practice`;
   const progressKey=`ncloud-learning-${lesson}-progress`;
+  const quizIds=[...document.querySelectorAll('[data-quiz]')].map(quiz=>quiz.dataset.quiz);
   let solved={};
+  function safeSet(key,value){
+    try{localStorage.setItem(key,value);return true;}catch(_){return false;}
+  }
   try{solved=JSON.parse(localStorage.getItem(practiceKey)||'{}');}catch(_){solved={};}
 
   document.querySelectorAll('[data-quiz]').forEach(quiz=>{
@@ -31,7 +35,8 @@
       feedback.innerHTML=`<strong>${matched?'判斷正確。':'再看一次證據。'}</strong> ${matched?quiz.dataset.explain:quiz.dataset.hint}`;
       if(matched){
         solved[quizId]=true;
-        localStorage.setItem(practiceKey,JSON.stringify(solved));
+        const stored=safeSet(practiceKey,JSON.stringify(solved));
+        if(!stored)feedback.append('（瀏覽器未允許保存，但本次作答仍有效。）');
         if(status)status.textContent='已答對';
       }else if(status){status.textContent='尚未答對';}
     }));
@@ -47,14 +52,25 @@
   });
   function saveProgress(){
     const state=Object.fromEntries(boxes.map(box=>[box.dataset.progress,box.checked]));
-    localStorage.setItem(progressKey,JSON.stringify(state));
+    safeSet(progressKey,JSON.stringify(state));
     updateProgress();
   }
   function updateProgress(){
     const done=boxes.filter(box=>box.checked).length;
     const bar=document.querySelector('#progress-bar');
     const text=document.querySelector('#progress-text');
-    if(bar)bar.style.width=`${boxes.length?done/boxes.length*100:0}%`;
+    if(bar){
+      const percentage=boxes.length?done/boxes.length*100:0;
+      bar.style.width=`${percentage}%`;
+      const track=bar.parentElement;
+      if(track){
+        track.setAttribute('role','progressbar');
+        track.setAttribute('aria-label','本課自評進度');
+        track.setAttribute('aria-valuemin','0');
+        track.setAttribute('aria-valuemax',String(boxes.length));
+        track.setAttribute('aria-valuenow',String(done));
+      }
+    }
     if(text)text.textContent=`${done} / ${boxes.length}`;
   }
   updateProgress();
@@ -62,12 +78,16 @@
   const finish=document.querySelector('#finish-button');
   if(finish)finish.addEventListener('click',()=>{
     const done=boxes.filter(box=>box.checked).length;
+    const practicesDone=quizIds.filter(id=>solved[id]).length;
     const message=document.querySelector('#completion-message');
-    if(done===boxes.length){
-      localStorage.setItem(`${progressKey}-complete`,'true');
-      message.textContent=`${lessonName}完成。你的學習紀錄已保存在這個瀏覽器。`;
+    if(done===boxes.length&&practicesDone===quizIds.length){
+      const stored=safeSet(`${progressKey}-complete`,'true');
+      message.textContent=`${lessonName}完成。${stored?'你的學習紀錄已保存在這個瀏覽器。':'本次已完成，但瀏覽器未允許保存進度。'}`;
     }else{
-      message.textContent=`還有 ${boxes.length-done} 項尚未勾選；先回到不確定的段落再試一次。`;
+      const missing=[];
+      if(practicesDone<quizIds.length)missing.push(`${quizIds.length-practicesDone} 題實作`);
+      if(done<boxes.length)missing.push(`${boxes.length-done} 項自評`);
+      message.textContent=`還有 ${missing.join('、')}尚未完成；請回到對應段落再試一次。`;
     }
   });
 })();
