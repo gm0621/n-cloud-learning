@@ -36,3 +36,14 @@
 .data-note b{color:var(--orange)}
 .breakpoint-table caption{padding:12px 14px;text-align:left;color:var(--muted);font-weight:700}
 .breakpoint-table-wrap:focus-visible{outline:3px solid #f2a476;outline-offset:3px}
+
+/* Series curriculum */
+.expansion-banner{display:flex;align-items:center;justify-content:space-between;gap:36px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.expansion-banner h2,.next-build h2{margin:0;font:500 clamp(34px,5vw,52px)/1.15 Georgia,"Noto Serif TC",serif;letter-spacing:-.03em}
+.expansion-banner p:not(.eyebrow),.next-build>p:not(.eyebrow){max-width:780px;color:var(--muted)}
+.expansion-banner .button{flex:none}.curriculum-hero{padding-bottom:44px}.contract-grid,.gate-grid,.path-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.contract-grid article,.gate-grid article,.path-grid article{padding:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.contract-grid b,.gate-grid span{color:var(--orange);font:700 24px Georgia,serif}.contract-grid h3,.gate-grid h3,.path-grid h3{margin:7px 0 5px}.contract-grid p,.gate-grid p,.path-grid p{margin:0;color:var(--muted)}
+.series-list{display:grid;gap:12px}.series-list details{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}.series-list summary{display:grid;grid-template-columns:180px 1fr auto;gap:18px;align-items:center;padding:20px 22px;cursor:pointer}.series-list summary:hover{background:var(--green-2)}.series-list summary span{color:var(--orange);font-weight:800}.series-list summary strong{font:600 23px Georgia,"Noto Serif TC",serif}.series-list summary em{color:var(--green);font-style:normal;font-size:13px;font-weight:800}.series-body{padding:0 22px 22px;border-top:1px solid var(--line)}.series-body>p{color:var(--muted)}.series-body ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 24px;margin:0;padding-left:25px}.series-body li{padding-left:4px}.next-build{margin-bottom:70px;padding:38px;border-radius:var(--radius);background:var(--green);color:#fff}.next-build .eyebrow,.next-build>p:not(.eyebrow){color:#d7e9df}.next-build .button{margin-top:12px;background:#fff;color:var(--green);border-color:#fff}
+@media(max-width:850px){.expansion-banner{align-items:flex-start;flex-direction:column}.contract-grid,.gate-grid,.path-grid{grid-template-columns:repeat(2,1fr)}.series-list summary{grid-template-columns:1fr auto}.series-list summary span{grid-column:1/-1}.series-body ol{grid-template-columns:1fr}}
+@media(max-width:560px){.contract-grid,.gate-grid,.path-grid{grid-template-columns:1fr}.series-list summary{grid-template-columns:1fr}.series-list summary span{grid-column:auto}.series-list summary em{justify-self:start}.next-build{padding:24px}}

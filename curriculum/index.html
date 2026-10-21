@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="N-Cloud 從基礎、實機、進階到 NPSC／NPEC 的 9 系列 88 課完整學習地圖">
+  <title>N-Cloud 系列化學習地圖</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <a class="brand" href="../"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a>
+    <span class="status-pill">9 系列 · 88 課</span>
+  </header>
+  <main id="main">
+    <section class="hero wrap curriculum-hero">
+      <p class="eyebrow">FOUNDATION · OPERATION · EXPERT · CERTIFICATION</p>
+      <h1>十二課之後，<br><em>還有完整進階路線</em></h1>
+      <p class="hero-copy">第 1～12 課是共同基礎。完成後依工作目標分流到實機操作、資料接入、監控、事件調查、SE／POC、NPSC、NPEC 或 Backend 維護，不必每個人照順序修完全部課程。</p>
+      <div class="hero-actions"><a class="button primary" href="#series">查看九個系列</a><a class="button ghost" href="../">回基礎課程</a></div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="contract-title">
+      <div class="section-heading"><div><p class="eyebrow">LESSON CONTRACT</p><h2 id="contract-title">每一課都有詳解，不只列功能</h2></div><p>初學者跟做與獨立挑戰並存；每一步都要能觀察結果、說明理由並知道如何排錯。</p></div>
+      <div class="contract-grid">
+        <article><b>01</b><h3>目的與位置</h3><p>先說要解決什麼，再提供經實機核對的操作路徑。</p></article>
+        <article><b>02</b><h3>示範與跟做</h3><p>一次一個操作，每一步都有預期畫面或資料結果。</p></article>
+        <article><b>03</b><h3>驗收與詳解</h3><p>不只看答對；還要解釋證據、錯誤答案與推論界線。</p></article>
+        <article><b>04</b><h3>排錯與交接</h3><p>查不到、權限不足、資料未進來時，有固定檢查順序。</p></article>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="gate-title">
+      <div class="section-heading"><div><p class="eyebrow">SAFETY GATES</p><h2 id="gate-title">實機操作逐級開放</h2></div><p>正式環境先唯讀；能在 LAB 驗證、能回復、知道影響範圍後，才進下一級。</p></div>
+      <div class="gate-grid">
+        <article><span>G0</span><h3>模擬資料</h3><p>不登入環境，可安全重做。</p></article>
+        <article><span>G1</span><h3>唯讀實機</h3><p>查詢、檢視、匯出，不改設定。</p></article>
+        <article><span>G2</span><h3>可逆 LAB 寫入</h3><p>只建立自己的測試物件，使用明確前綴。</p></article>
+        <article><span>G3</span><h3>高風險 Gate</h3><p>通知、轉發、聯防與升級需逐項授權及回復方案。</p></article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="series" aria-labelledby="series-title">
+      <div class="section-heading"><div><p class="eyebrow">9 LEARNING SERIES</p><h2 id="series-title">九個系列，依目標分流</h2></div><p>共 88 課；基礎 12 課之後另有 76 課進階與證照路線。</p></div>
+      <div class="series-list">
+        <details open><summary><span>系列一 · 01～12</span><strong>N-Cloud 基礎</strong><em>共同必修</em></summary><div class="series-body"><p>從四類資料、欄位判讀到基本監控與事件調查。</p><ol><li>N-Cloud 在做什麼</li><li>資料如何進入 N-Cloud</li><li>Syslog 欄位與事件</li><li>Flow 與通聯分析</li><li>SNMP 與設備健康</li><li>PM、SLA 與服務品質</li><li>時間範圍與搜尋條件</li><li>TopN、報表與 Dashboard</li><li>門檻、規則與告警</li><li>故障排查方法</li><li>資安事件調查</li><li>綜合事件調查</li></ol></div></details>
+        <details><summary><span>系列二 · 13～24</span><strong>N-Cloud 實機操作</strong><em>G1 → G2</em></summary><div class="series-body"><p>從環境安全、事件查詢一路做到值班人員綜合實作。</p><ol><li>LAB 安全、版本與角色權限</li><li>系統資訊與設備樹</li><li>事件查詢入門</li><li>RAW DATA 與欄位</li><li>IP 名稱解析與 CSV</li><li>儲存查詢與欄位版面</li><li>TopN 與 TopN × TopN</li><li>報表與排程輸出</li><li>Dashboard 元件</li><li>SNMP 設備檢視</li><li>PM：Ping／Web／Port</li><li>值班人員綜合實作</li></ol></div></details>
+        <details><summary><span>系列三 · 25～34</span><strong>資料接入與正規化</strong><em>進階</em></summary><div class="series-body"><p>讓陌生設備與應用程式紀錄成為可靠、可搜尋的資料。</p><ol><li>Syslog 格式與 Severity</li><li>Windows Event 與 NXLog</li><li>應用程式與多行 Log</li><li>Tag-Value 正規化</li><li>Delimiter 正規化</li><li>CEF 與 Label</li><li>時間、時區與事件時間</li><li>Parser 測試與失敗診斷</li><li>N-Probe／External Receiver</li><li>新資料源 Onboarding</li></ol></div></details>
+        <details><summary><span>系列四 · 35～44</span><strong>監控、告警與自動化</strong><em>進階</em></summary><div class="series-body"><p>從基準線、門檻與抑制，走到安全可維護的通知與聯防設計。</p><ol><li>基準線與門檻</li><li>分時監控</li><li>分時 TopN</li><li>去重、抑制與告警風暴</li><li>通知群組與測試訊息</li><li>第三方通知整合</li><li>轉發與減量轉發</li><li>自動執行安全設計</li><li>情資 IP、黑名單與聯防</li><li>監控工程 Capstone</li></ol></div></details>
+        <details><summary><span>系列五 · 45～54</span><strong>事件調查與維運情境</strong><em>情境實戰</em></summary><div class="series-body"><p>處理 VPN、頻寬、介面、網站、檔案稽核與情資命中等真實情境。</p><ol><li>事件分級與 Triage</li><li>VPN 登入異常</li><li>頻寬異常與 Top Talker</li><li>設備介面不穩</li><li>網站慢與 SLA</li><li>Windows／NAS 檔案稽核</li><li>AD、使用者與 IP 關聯</li><li>情資命中與誤判</li><li>調查報告與交接</li><li>跨資料事件 Capstone</li></ol></div></details>
+        <details><summary><span>系列六 · 55～64</span><strong>SE、POC 與客戶導入</strong><em>專案實戰</em></summary><div class="series-body"><p>把需求轉成架構、Sizing、POC、驗收、Runbook 與客戶交接。</p><ol><li>需求訪談與問題定義</li><li>產品、元件與資料流</li><li>License 與 Sizing</li><li>拓撲、HA 與故障域</li><li>POC 計畫與成功條件</li><li>初始設定與資料接入</li><li>效能、容量與保存</li><li>UAT 與缺陷管理</li><li>Runbook 與教育訓練</li><li>客戶導入 Capstone</li></ol></div></details>
+        <details><summary><span>系列七 · 65～72</span><strong>NPSC 證照準備</strong><em>公開範圍</em></summary><div class="series-body"><p>依官方公開能力範圍更新，不宣稱或重製真實考題。</p><ol><li>N-Partner 產品線</li><li>架構、元件與核心技術</li><li>四類資料高頻觀念</li><li>常用操作與 Dashboard</li><li>License 計算</li><li>採購、保固與 MA</li><li>NPSC 模擬考一</li><li>NPSC 模擬考二與補強</li></ol></div></details>
+        <details><summary><span>系列八 · 73～80</span><strong>NPEC／專家實機準備</strong><em>能力模擬</em></summary><div class="series-body"><p>不臆測未公開考題；練習需求、架構、實機、排錯與限時交付。</p><ol><li>能力地圖與限時策略</li><li>需求轉架構與 License</li><li>設備納管與查詢</li><li>正規化與異常修正</li><li>監控、通知與 Dashboard</li><li>故障注入與排錯</li><li>三小時整合模擬一</li><li>三小時整合模擬二</li></ol></div></details>
+        <details><summary><span>系列九 · 81～88</span><strong>Backend、維護與升級</strong><em>G3</em></summary><div class="series-body"><p>理解健康、備份、容量、版本、升級與回復；正式環境逐項 Gate。</p><ol><li>Backend 與系統資訊</li><li>備份範圍與還原點</li><li>資料庫、儲存與保存</li><li>服務、Log 與健康檢查</li><li>版本矩陣與 Kernel</li><li>Checksum 與變更 Gate</li><li>LAB 升級與驗證</li><li>回復與災難演練</li></ol></div></details>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="paths-title">
+      <div class="section-heading"><div><p class="eyebrow">CHOOSE YOUR PATH</p><h2 id="paths-title">不用全部修完，選適合的路線</h2></div><p>每一條路都先完成基礎，再依工作與考照目標選系列。</p></div>
+      <div class="path-grid">
+        <article><h3>日常維運</h3><p>基礎 → 實機 → 監控 → 事件調查</p></article>
+        <article><h3>SE／導入</h3><p>基礎 → 實機 → 正規化 → POC → Backend</p></article>
+        <article><h3>NPSC</h3><p>基礎 → NPSC；實機較弱時補系列二</p></article>
+        <article><h3>NPEC</h3><p>基礎 → 實機 → 正規化 → 監控 → POC → NPEC</p></article>
+      </div>
+    </section>
+
+    <section class="section wrap next-build" aria-labelledby="next-title">
+      <p class="eyebrow">NEXT TO BUILD</p><h2 id="next-title">近期先完成基礎第 7～12 課</h2>
+      <p>第一個重點是第七課「時間範圍與事件搜尋」：它會是完整的初學者實機課，包含目的、實際位置、逐步操作、預期結果、驗收、詳解與排錯。</p>
+      <a class="button primary" href="../">回到目前可學課程</a>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>N-Cloud Learning · 系列化學習地圖</span><a href="../">回基礎課程</a></div></footer>
+</body>
+</html>
