@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="第一課：先看懂 N-Cloud 在做什麼">
+  <title>第一課｜先看懂 N-Cloud 在做什麼</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script src="../assets/lesson.js" defer></script>
+</head>
+<body data-lesson="day01">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header lesson-header">
+    <a class="brand" href="../"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a>
+    <nav aria-label="課程導覽"><a href="../">三日路線</a><span>第一課</span></nav>
+  </header>
+
+  <main id="main">
+    <section class="lesson-hero wrap">
+      <div>
+        <p class="eyebrow">DAY 01 · FOUNDATION</p>
+        <h1>先看懂 N-Cloud<br><em>在做什麼</em></h1>
+        <p>今天不背選單，也不急著考試。我們先建立一張清楚的地圖：不同資料各自回答什麼問題，又如何一起找出答案。</p>
+      </div>
+      <aside class="goal-card" aria-label="本課學習目標">
+        <span>本課目標</span>
+        <ol>
+          <li>說出 N-Cloud 解決的問題</li>
+          <li>分辨四種資料的角色</li>
+          <li>看懂跨資料調查順序</li>
+        </ol>
+        <small>建議時間：約 35–45 分鐘</small>
+      </aside>
+    </section>
+
+    <div class="lesson-layout wrap">
+      <aside class="lesson-nav" aria-label="本課章節">
+        <p>本課章節</p>
+        <a href="#mental-model">01 監控中心</a>
+        <a href="#four-data">02 四種資料</a>
+        <a href="#journey">03 資料旅程</a>
+        <a href="#case">04 情境串接</a>
+        <a href="#practice">05 觀察練習</a>
+        <a href="#complete">06 學習紀錄</a>
+      </aside>
+
+      <article class="lesson-content">
+        <section id="mental-model" class="lesson-section">
+          <p class="section-index">01</p>
+          <h2>N-Cloud 像企業網路的監控中心</h2>
+          <p class="lead">公司裡的防火牆、Switch、Router、Server 與各種服務都在產生資訊。真正的問題不是「有沒有資料」，而是事件發生時，能不能把分散線索組成答案。</p>
+          <div class="problem-box">
+            <p>使用者回報</p>
+            <blockquote>「今天下午兩點開始，網路變得很慢。」</blockquote>
+            <div class="possibilities">
+              <span>大量下載？</span><span>設備過載？</span><span>Port 錯誤？</span><span>服務變慢？</span>
+            </div>
+          </div>
+          <div class="pipeline" aria-label="N-Cloud 基本流程">
+            <div><small>01</small><strong>收集</strong><span>設備送出資料</span></div>
+            <i aria-hidden="true">→</i>
+            <div><small>02</small><strong>整理</strong><span>辨識與正規化</span></div>
+            <i aria-hidden="true">→</i>
+            <div><small>03</small><strong>分析</strong><span>搜尋與交叉比對</span></div>
+            <i aria-hidden="true">→</i>
+            <div><small>04</small><strong>行動</strong><span>報表、監控與告警</span></div>
+          </div>
+          <div class="key-point"><b>核心觀念</b><p>N-Cloud 不只是「看 Log」，而是把不同設備、網路與服務線索集中起來，幫助我們判斷發生了什麼。</p></div>
+        </section>
+
+        <section id="four-data" class="lesson-section">
+          <p class="section-index">02</p>
+          <h2>四種資料，各自回答不同問題</h2>
+          <p class="lead">不要先背技術名稱。先記住每一種資料最擅長回答的問題。</p>
+          <div class="data-grid">
+            <article class="data-card syslog">
+              <p class="data-code">SYSLOG</p><h3>發生了什麼事？</h3>
+              <p>設備主動送出的事件紀錄，例如登入失敗、防火牆阻擋、設定修改或服務停止。</p>
+              <div class="analogy"><span>像什麼？</span><strong>設備寫下來的日記</strong></div>
+              <ul><li>誰做了什麼？</li><li>什麼時間發生？</li><li>結果成功還是失敗？</li></ul>
+            </article>
+            <article class="data-card flow">
+              <p class="data-code">FLOW</p><h3>誰跟誰傳了多少？</h3>
+              <p>記錄來源、目的、Port、協定、流量與時間，呈現網路上的通訊關係。</p>
+              <div class="analogy"><span>像什麼？</span><strong>網路上的通聯紀錄</strong></div>
+              <ul><li>誰占用最多頻寬？</li><li>哪台主機傳送最多？</li><li>正在連到哪些位址？</li></ul>
+            </article>
+            <article class="data-card snmp">
+              <p class="data-code">SNMP</p><h3>設備現在健康嗎？</h3>
+              <p>取得 CPU、記憶體、介面流量、Port 狀態、錯誤封包與運作時間。</p>
+              <div class="analogy"><span>像什麼？</span><strong>設備的健康儀表</strong></div>
+              <ul><li>CPU 是否過高？</li><li>Port 是否斷線？</li><li>介面是否接近滿載？</li></ul>
+            </article>
+            <article class="data-card pm">
+              <p class="data-code">PM</p><h3>服務表現好不好？</h3>
+              <p>定期量測服務可用性、回應時間、延遲或封包遺失，觀察服務品質。</p>
+              <div class="analogy"><span>像什麼？</span><strong>定期實際測試服務</strong></div>
+              <ul><li>網站能否開啟？</li><li>回應是否變慢？</li><li>服務是否符合要求？</li></ul>
+            </article>
+          </div>
+          <div class="summary-table-wrap">
+            <table>
+              <thead><tr><th>資料</th><th>第一個要問的問題</th><th>最常看到的線索</th></tr></thead>
+              <tbody>
+                <tr><td><b>Syslog</b></td><td>發生了什麼事件？</td><td>登入、阻擋、錯誤、設定異動</td></tr>
+                <tr><td><b>Flow</b></td><td>誰跟誰傳了多少？</td><td>來源／目的、Port、流量</td></tr>
+                <tr><td><b>SNMP</b></td><td>設備健康狀態如何？</td><td>CPU、記憶體、介面、Port</td></tr>
+                <tr><td><b>PM</b></td><td>服務實際表現如何？</td><td>可用性、延遲、回應時間</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="journey" class="lesson-section">
+          <p class="section-index">03</p>
+          <h2>一筆資料如何變成可用線索</h2>
+          <p class="lead">先記住這條資料旅程。之後進實機時，每個畫面都能放回這條路徑理解。</p>
+          <div class="journey">
+            <div><span>設備</span><strong>產生事件或狀態</strong><small>Firewall · Switch · Server</small></div>
+            <i>→</i><div><span>收集</span><strong>接收各種資料</strong><small>Syslog · Flow · SNMP · PM</small></div>
+            <i>→</i><div><span>整理</span><strong>辨識欄位與意義</strong><small>時間 · 來源 · 目的 · 動作</small></div>
+            <i>→</i><div><span>使用</span><strong>查詢、報表與告警</strong><small>找到異常並採取行動</small></div>
+          </div>
+          <p class="note">後續課程會把「Receiver、儲存與正規化」補進這張圖；現在先掌握方向，不必一次記完所有元件名稱。</p>
+        </section>
+
+        <section id="case" class="lesson-section">
+          <p class="section-index">04</p>
+          <h2>把四種資料串起來</h2>
+          <p class="lead">同一個「網路很慢」，每種資料看到的是不同切面。</p>
+          <div class="case-timeline">
+            <article><b>1</b><div><span>FLOW</span><h3>先找出誰占用流量</h3><p>發現 <code>192.168.1.50</code> 在短時間內傳輸大量資料。</p></div></article>
+            <article><b>2</b><div><span>SNMP</span><h3>確認設備是否過載</h3><p>Switch 上行介面接近滿載，但設備 CPU 正常。</p></div></article>
+            <article><b>3</b><div><span>SYSLOG</span><h3>查當時發生的事件</h3><p>該主機剛登入備份服務，隨後開始大量傳輸。</p></div></article>
+            <article><b>4</b><div><span>PM</span><h3>確認服務實際影響</h3><p>網站回應時間從 0.5 秒上升到 8 秒。</p></div></article>
+          </div>
+          <div class="key-point"><b>今天最重要的一句話</b><p>不是單獨看一筆 Log，而是把事件、流量、設備狀態與服務品質串起來。</p></div>
+        </section>
+
+        <section id="practice" class="lesson-section practice-section">
+          <p class="section-index">05</p>
+          <h2>觀察練習：先選調查方向</h2>
+          <p class="lead">這不是考試。請先依直覺選擇，按下後再看為什麼。</p>
+          <div class="scenario-tabs" role="tablist" aria-label="練習情境">
+            <button class="scenario-tab active" role="tab" aria-selected="true" data-scenario="bandwidth">頻寬突然升高</button>
+            <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="login">帳號反覆登入失敗</button>
+            <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="service">網站開得很慢</button>
+          </div>
+          <div class="scenario-panel" aria-live="polite">
+            <p class="scenario-question" id="scenario-question">你會先看哪一種資料，找出誰占用了頻寬？</p>
+            <div class="choice-grid" id="choice-grid"></div>
+            <div class="feedback" id="feedback" hidden></div>
+          </div>
+        </section>
+
+        <section id="complete" class="lesson-section completion-section">
+          <p class="section-index">06</p>
+          <h2>留下今天的學習紀錄</h2>
+          <p class="lead">勾選你已經能做到的項目。紀錄只保存在這個瀏覽器，不會上傳。</p>
+          <div class="checklist">
+            <label><input type="checkbox" data-progress="purpose"><span>我能用自己的話說明 N-Cloud 解決什麼問題</span></label>
+            <label><input type="checkbox" data-progress="sources"><span>我能分辨 Syslog、Flow、SNMP、PM</span></label>
+            <label><input type="checkbox" data-progress="case"><span>我能說出「網路很慢」的基本調查順序</span></label>
+          </div>
+          <div class="progress-row"><div class="progress-track"><span id="progress-bar"></span></div><strong id="progress-text">0 / 3</strong></div>
+          <button class="button primary" id="finish-button" type="button">完成第一課</button>
+          <p class="completion-message" id="completion-message" role="status"></p>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer><div class="wrap"><a href="../">← 回三日學習路線</a><span>第一課 · 基礎心智模型</span></div></footer>
+</body>
+</html>
