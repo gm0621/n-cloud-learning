@@ -97,6 +97,23 @@ for lesson in range(13, 19):
 day12 = (ROOT / "day12" / "index.html").read_text(encoding="utf-8")
 assert 'href="../day13/"' in day12, "day12 must continue to day13"
 
+day13 = (ROOT / "day13" / "index.html").read_text(encoding="utf-8")
+for marker in ("UI 版本", "Kernel", "角色不可見", "停止條件"):
+    assert marker in day13, f"day13 missing environment-card marker: {marker}"
+
+day15 = (ROOT / "day15" / "index.html").read_text(encoding="utf-8")
+for marker in ("來源 IP", "Severity", "保存查詢條件", "事件 ID"):
+    assert marker in day15, f"day15 missing reproducible-query marker: {marker}"
+
+practice_js = (ROOT / "assets" / "lesson-practice.js").read_text(encoding="utf-8")
+assert ".innerHTML" not in practice_js, "quiz feedback must not use innerHTML"
+for marker in ("isPlainObject", "aria-live", "aria-pressed"):
+    assert marker in practice_js, f"lesson practice missing defensive/a11y marker: {marker}"
+
+styles = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
+assert "prefers-reduced-motion" in styles
+assert ".feedback:empty" in styles, "print must not expose empty feedback boxes"
+
 all_html = "\n".join((ROOT / f"day{n:02d}" / "index.html").read_text() for n in range(13, 19))
 assert not re.search(r"\bTODO\b", all_html)
 assert "正式環境直接修改" not in all_html

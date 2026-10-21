@@ -30,7 +30,10 @@
 @media(max-width:900px){.evidence-chain{grid-template-columns:repeat(2,1fr)}.tuple-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.metric-grid,.tuple-grid,.evidence-chain{grid-template-columns:1fr}.quiz-card{padding:18px}.formula-card strong{font-size:21px}}
 
-@media print{.site-header,.lesson-nav,.scenario-tabs,.choice-grid,.button,footer{display:none!important}body{background:#fff}.lesson-layout{display:block}.lesson-section{break-before:page;border:0;padding:24px 0}.lesson-hero{padding:20px 0}.data-card,.problem-box,.scenario-panel{box-shadow:none;break-inside:avoid}.feedback{display:block!important}.wrap{width:100%}}
+@media print{.site-header,.lesson-nav,.scenario-tabs,.choice-grid,.button,footer{display:none!important}body{background:#fff}.lesson-layout{display:block}.lesson-section{break-before:page;border:0;padding:24px 0}.lesson-hero{padding:20px 0}.data-card,.problem-box,.scenario-panel{box-shadow:none;break-inside:avoid}.feedback:not(:empty){display:block!important}.feedback:empty{display:none!important}.wrap{width:100%}}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #bf5b2c;outline-offset:3px}.storage-warning{margin:12px 0;color:var(--orange);font-weight:700}
 
 .data-note{margin:18px 0;padding:12px 15px;border-left:4px solid var(--orange);background:var(--orange-soft);color:var(--muted)}
 .data-note b{color:var(--orange)}
