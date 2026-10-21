@@ -20,10 +20,10 @@
     <section class="hero wrap">
       <p class="eyebrow">LEARN · PRACTICE · INVESTIGATE</p>
       <h1>不是趕進度，<br><em>而是真的學到會</em></h1>
-      <p class="hero-copy">從資料來源、欄位判讀一路學到告警與事件調查。每一課都有小練習，最後完成能說明證據的綜合實作。</p>
+      <p class="hero-copy">從資料來源、欄位判讀一路學到事件調查與安全實機操作。每一課都有可核對練習，逐步從模擬資料進入 G1／G2 LAB。</p>
       <div class="hero-actions">
-        <a class="button primary" href="day07/">開始第七課</a>
-        <a class="button ghost" href="#route">查看基礎課程</a>
+        <a class="button primary" href="day13/">開始第十三課</a>
+        <a class="button ghost" href="#route">查看已發布課程</a>
         <a class="button ghost" href="curriculum/">查看 9 系列 88 課</a>
       </div>
       <div class="principles" aria-label="學習原則">
@@ -46,8 +46,8 @@
 
     <section class="section wrap" id="route">
       <div class="section-heading">
-        <div><p class="eyebrow">COMPLETE ROADMAP</p><h2>完整課程地圖</h2></div>
-        <p>共四個階段、十二課，現在全部可以學習。建議依序完成，也可以回到需要補強的主題。</p>
+        <div><p class="eyebrow">PUBLISHED ROADMAP</p><h2>已發布課程地圖</h2></div>
+        <p>目前共五個階段、十八課。第 1～12 課建立共同基礎，第 13～18 課進入安全實機操作。</p>
       </div>
 
       <section class="module-block" aria-labelledby="module-1">
@@ -93,13 +93,25 @@
           <article class="course-card available capstone"><div class="course-meta"><span>12</span><span class="tag live">期末實作</span></div><h4>綜合事件調查</h4><p>接收一則使用者回報，自行選資料、找證據、形成結論與建議。</p><small>驗收：證據鏈、結論、下一步與反思</small><a class="text-link" href="day12/">進入第十二課 →</a></article>
         </div>
       </section>
+
+      <section class="module-block" aria-labelledby="module-5">
+        <div class="module-heading"><span>階段五</span><div><h3 id="module-5">進入安全實機操作</h3><p>先辨識環境與權限，再做唯讀查詢、原始資料核對與可逆 LAB 寫入。</p></div></div>
+        <div class="course-grid">
+          <article class="course-card available"><div class="course-meta"><span>13</span><span class="tag live">可學習</span></div><h4>LAB 安全、版本與角色權限</h4><p>辨識環境、版本、角色與工單授權，用 G0～G3 判斷操作邊界。</p><small>實作：環境辨識卡＋可回復 LAB 計畫</small><a class="text-link" href="day13/">進入第十三課 →</a></article>
+          <article class="course-card available"><div class="course-meta"><span>14</span><span class="tag live">可學習</span></div><h4>系統資訊與設備樹</h4><p>記錄版本、節點、時區與保存範圍，靠完整路徑與唯一識別分辨設備。</p><small>實作：環境摘要＋設備定向紀錄</small><a class="text-link" href="day14/">進入第十四課 →</a></article>
+          <article class="course-card available"><div class="course-meta"><span>15</span><span class="tag live">可學習</span></div><h4>事件查詢入門</h4><p>依絕對時間、設備、對象與結果建立可重現的 G1 唯讀查詢。</p><small>實作：VPN 登入事件查詢＋零結果排錯</small><a class="text-link" href="day15/">進入第十五課 →</a></article>
+          <article class="course-card available"><div class="course-meta"><span>16</span><span class="tag live">可學習</span></div><h4>RAW DATA 與欄位</h4><p>比較原始紀錄與正規化欄位，辨認缺欄、時間與解析限制。</p><small>實作：欄位映射＋解析問題交接單</small><a class="text-link" href="day16/">進入第十六課 →</a></article>
+          <article class="course-card available"><div class="course-meta"><span>17</span><span class="tag live">可學習</span></div><h4>IP 名稱解析與 CSV</h4><p>檢查命名來源、CSV schema、編碼、重複與公式風險，再做最小 LAB 匯入。</p><small>實作：CSV 清理＋三筆可回復匯入</small><a class="text-link" href="day17/">進入第十七課 →</a></article>
+          <article class="course-card available featured"><div class="course-meta"><span>18</span><span class="tag live">新課程</span></div><h4>儲存查詢與欄位版面</h4><p>把已驗證條件保存成有目的、範圍、版本與清理方式的個人工作區。</p><small>實作：個人查詢＋六欄調查版面</small><a class="text-link" href="day18/">進入第十八課 →</a></article>
+        </div>
+      </section>
     </section>
 
     <section class="section wrap expansion-banner" aria-labelledby="expansion-title">
       <div>
         <p class="eyebrow">BEYOND THE FOUNDATION</p>
-        <h2 id="expansion-title">第 1～12 課是基礎，後面還有 8 個系列</h2>
-        <p>實機操作、資料正規化、監控自動化、事件調查、SE／POC、NPSC、NPEC 與 Backend 維護，共規劃 9 系列 88 課。完成基礎後依你的工作目標分流，不需要全部照順序修完。</p>
+        <h2 id="expansion-title">第 1～18 課已發布，完整路線共有 9 個系列</h2>
+        <p>接下來將延續實機操作的 TopN、報表、Dashboard、SNMP、PM 與值班綜合實作，再逐步製作資料正規化、監控自動化、事件調查、SE／POC、NPSC、NPEC 與 Backend 維護。</p>
       </div>
       <a class="button primary" href="curriculum/">查看完整系列地圖 →</a>
     </section>
