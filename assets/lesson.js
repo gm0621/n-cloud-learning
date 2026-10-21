@@ -62,7 +62,7 @@
     const message=document.querySelector('#completion-message');
     if(done===boxes.length){
       localStorage.setItem(`${storageKey}-complete`,'true');
-      message.textContent='第一課完成。你的進度已保存在這個瀏覽器。';
+      message.textContent='第一課完成。你的進度已保存在這個瀏覽器，可以繼續第二課。';
     }else{
       message.textContent=`還有 ${boxes.length-done} 項尚未勾選；不必趕，理解後再完成。`;
     }

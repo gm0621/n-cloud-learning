@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="第二課：資料如何從設備進入 N-Cloud">
+  <title>第二課｜資料如何進入 N-Cloud</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script src="../assets/lesson02.js" defer></script>
+</head>
+<body data-lesson="lesson02">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header lesson-header">
+    <a class="brand" href="../"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a>
+    <nav aria-label="課程導覽"><a href="../">完整路線</a><a href="../day01/">第一課</a><span>第二課</span></nav>
+  </header>
+
+  <main id="main">
+    <section class="lesson-hero wrap">
+      <div>
+        <p class="eyebrow">LESSON 02 · DATA JOURNEY</p>
+        <h1>資料如何進入<br><em>N-Cloud</em></h1>
+        <p>一筆紀錄不會自己出現在 Dashboard。這一課要沿著資料走一次，理解每個階段負責什麼，以及資料在哪裡可能中斷。</p>
+      </div>
+      <aside class="goal-card" aria-label="本課學習目標">
+        <span>本課目標</span>
+        <ol>
+          <li>說出資料旅程的六個階段</li>
+          <li>分辨接收、解析與儲存的工作</li>
+          <li>依症狀判斷可能的中斷位置</li>
+        </ol>
+        <small>建議時間：約 45–55 分鐘</small>
+      </aside>
+    </section>
+
+    <div class="lesson-layout wrap">
+      <aside class="lesson-nav" aria-label="本課章節">
+        <p>本課章節</p>
+        <a href="#big-picture">01 完整旅程</a>
+        <a href="#stages">02 六個階段</a>
+        <a href="#normalize">03 為何正規化</a>
+        <a href="#breakpoints">04 常見斷點</a>
+        <a href="#practice-order">05 排序實作</a>
+        <a href="#practice-diagnose">06 診斷實作</a>
+        <a href="#complete">07 學習紀錄</a>
+      </aside>
+
+      <article class="lesson-content">
+        <section id="big-picture" class="lesson-section">
+          <p class="section-index">01</p>
+          <h2>Dashboard 是終點，不是起點</h2>
+          <p class="lead">當你在畫面上看到一張趨勢圖，背後其實已經完成傳送、接收、整理、保存與查詢。任何一站出問題，都可能讓畫面看起來「沒有資料」。</p>
+          <div class="story-callout">
+            <span>今天的問題</span>
+            <blockquote>「防火牆明明有產生事件，為什麼在 N-Cloud 搜尋不到？」</blockquote>
+            <p>不要立刻怪搜尋畫面。先沿著資料旅程逐站確認，才能知道資料根本沒送出、送到了但沒解析，還是已經存在卻查錯時間。</p>
+          </div>
+          <div class="pipeline pipeline-six" aria-label="資料進入 N-Cloud 的六個階段">
+            <div><small>01</small><strong>產生</strong><span>設備建立原始資料</span></div><i aria-hidden="true">→</i>
+            <div><small>02</small><strong>傳送</strong><span>經網路送往接收端</span></div><i aria-hidden="true">→</i>
+            <div><small>03</small><strong>接收</strong><span>Receiver／Collector 收到</span></div><i aria-hidden="true">→</i>
+            <div><small>04</small><strong>解析</strong><span>辨識並正規化欄位</span></div><i aria-hidden="true">→</i>
+            <div><small>05</small><strong>儲存</strong><span>建立索引以供查詢</span></div><i aria-hidden="true">→</i>
+            <div><small>06</small><strong>使用</strong><span>搜尋、圖表與告警</span></div>
+          </div>
+          <div class="key-point"><b>核心觀念</b><p>「設備有資料」不等於「平台可搜尋」。中間每一站都要成功，資料才會變成可用證據。</p></div>
+        </section>
+
+        <section id="stages" class="lesson-section">
+          <p class="section-index">02</p>
+          <h2>六個階段，各有不同責任</h2>
+          <p class="lead">把每一站的輸入、工作與輸出分開，排錯時才不會只會反覆按搜尋。</p>
+          <div class="stage-list">
+            <article><span>01</span><div><p>設備／服務</p><h3>產生原始資料</h3><small>事件、通聯、設備狀態或服務量測結果。先確認來源本身真的有資料。</small></div></article>
+            <article><span>02</span><div><p>網路傳輸</p><h3>把資料送到正確目的地</h3><small>檢查目的位址、Port、協定與路徑；設定正確不代表網路一定可達。</small></div></article>
+            <article><span>03</span><div><p>Receiver／Collector</p><h3>接住不同來源的資料</h3><small>接收端先確認「有沒有收到」，不等於已理解內容或可供搜尋。</small></div></article>
+            <article><span>04</span><div><p>Parser／正規化</p><h3>把原始文字變成共同欄位</h3><small>辨識時間、來源、目的、動作、結果等欄位，讓不同廠牌資料可比較。</small></div></article>
+            <article><span>05</span><div><p>Storage／Index</p><h3>保存並建立可搜尋結構</h3><small>索引讓查詢更快；保存時間則決定多久以前的資料還找得到。</small></div></article>
+            <article><span>06</span><div><p>Search／Dashboard／Alert</p><h3>把資料變成問題的答案</h3><small>搜尋找證據、Dashboard 看趨勢、規則與告警提醒需要行動的狀況。</small></div></article>
+          </div>
+        </section>
+
+        <section id="normalize" class="lesson-section">
+          <p class="section-index">03</p>
+          <h2>為什麼不能直接只看原始文字？</h2>
+          <p class="lead">不同設備可能用不同名稱表達相同概念。正規化的目的，是讓它們可以用同一套方式查詢。</p>
+          <div class="normalize-demo">
+            <div class="raw-record">
+              <span>原始紀錄 A</span><code>time=14:03 src=10.0.0.8 dst=203.0.113.20 action=deny</code>
+              <span>原始紀錄 B</span><code>event_at=14:03 client=10.0.0.8 server=203.0.113.20 result=blocked</code>
+            </div>
+            <div class="normalize-arrow" aria-hidden="true">↓ 正規化</div>
+            <div class="field-chips" aria-label="正規化後的共同欄位">
+              <span><b>時間</b> 14:03</span><span><b>來源 IP</b> 10.0.0.8</span><span><b>目的 IP</b> 203.0.113.20</span><span><b>動作</b> 阻擋</span>
+            </div>
+          </div>
+          <div class="compare-grid">
+            <article><h3>只有接收到</h3><p>知道資料進來了，但欄位可能仍是一整段文字，跨設備搜尋很困難。</p></article>
+            <article><h3>完成正規化</h3><p>可用共同欄位搜尋、聚合與比較，也比較適合製作 Dashboard 和告警。</p></article>
+          </div>
+        </section>
+
+        <section id="breakpoints" class="lesson-section">
+          <p class="section-index">04</p>
+          <h2>從症狀反推可能的斷點</h2>
+          <p class="lead">症狀不是答案，但能幫你決定第一個檢查點。</p>
+          <div class="breakpoint-table-wrap">
+            <table class="breakpoint-table">
+              <thead><tr><th>看到的症狀</th><th>優先檢查</th><th>接著確認</th></tr></thead>
+              <tbody>
+                <tr><td>接收端完全沒有資料</td><td>來源設定與網路傳輸</td><td>目的位址、Port、協定、路徑</td></tr>
+                <tr><td>有原始資料，但欄位都混在一起</td><td>解析與正規化</td><td>格式是否被辨識、欄位對應是否正確</td></tr>
+                <tr><td>今天找得到，較早資料找不到</td><td>保存與索引</td><td>保留期限、時間條件、索引狀態</td></tr>
+                <tr><td>搜尋有資料，Dashboard 卻沒有</td><td>圖表條件</td><td>時間範圍、篩選條件、指標與維度</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">真正環境的元件名稱與部署方式可能不同；這裡先學穩定的排錯邏輯，之後再對應實際 N-Cloud 版本。</p>
+        </section>
+
+        <section id="practice-order" class="lesson-section practice-section">
+          <p class="section-index">05</p>
+          <p class="practice-label">動手練習 · 約 8 分鐘</p>
+          <h2>實作一：把資料旅程排回正確順序</h2>
+          <p class="lead">從第一步開始依序點選。選錯不扣分，利用提示重新判斷。</p>
+          <div class="order-practice" data-order-practice>
+            <div class="order-bank" aria-label="可選階段"></div>
+            <div class="order-result" aria-live="polite"><ol></ol></div>
+            <div class="practice-actions"><button class="button ghost" type="button" data-order-reset>重新開始</button><span data-order-status>已完成 0 / 6</span></div>
+          </div>
+          <div class="acceptance-box"><b>完成條件</b><ul><li>六個階段順序全部正確</li><li>能說出「接收」和「解析」為什麼不是同一件事</li></ul></div>
+        </section>
+
+        <section id="practice-diagnose" class="lesson-section practice-section">
+          <p class="section-index">06</p>
+          <p class="practice-label">動手練習 · 約 10 分鐘</p>
+          <h2>實作二：第一個該查哪一站？</h2>
+          <p class="lead">先依症狀選擇最直接的檢查點，再閱讀解說。不是找唯一真相，而是練習有效的第一步。</p>
+          <div class="scenario-tabs diagnose-tabs" role="tablist" aria-label="斷點診斷情境">
+            <button class="scenario-tab active" role="tab" aria-selected="true" data-case="missing">完全收不到</button>
+            <button class="scenario-tab" role="tab" aria-selected="false" data-case="unparsed">欄位無法用</button>
+            <button class="scenario-tab" role="tab" aria-selected="false" data-case="dashboard">圖表沒有資料</button>
+          </div>
+          <div class="scenario-panel" aria-live="polite">
+            <p class="scenario-question" id="diagnose-question"></p>
+            <div class="choice-grid diagnose-grid" id="diagnose-grid"></div>
+            <div class="feedback" id="diagnose-feedback" hidden></div>
+          </div>
+          <div class="acceptance-box"><b>完成條件</b><ul><li>完成三個情境</li><li>每題都能說出下一個要找的證據</li></ul></div>
+        </section>
+
+        <section id="complete" class="lesson-section completion-section">
+          <p class="section-index">07</p>
+          <h2>完成第二課學習紀錄</h2>
+          <p class="lead">勾選你真的能做到的項目。紀錄只保存在這個瀏覽器，不會上傳。</p>
+          <div class="checklist">
+            <label><input type="checkbox" data-progress="journey"><span>我能依序說出資料旅程的六個階段</span></label>
+            <label><input type="checkbox" data-progress="roles"><span>我能分辨接收、解析正規化與儲存</span></label>
+            <label><input type="checkbox" data-progress="diagnose"><span>我能依症狀選擇第一個檢查點</span></label>
+          </div>
+          <div class="progress-row"><div class="progress-track"><span id="progress-bar"></span></div><strong id="progress-text">0 / 3</strong></div>
+          <button class="button primary" id="finish-button" type="button">完成第二課</button>
+          <p class="completion-message" id="completion-message" role="status"></p>
+          <div class="next-lesson-note"><span>下一課</span><strong>Syslog 欄位與事件判讀</strong><p>下一步會開始讀真正的資料欄位，從時間、來源、嚴重度與動作重建事件。</p></div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer><div class="wrap"><a href="../day01/">← 第一課</a><a href="../">回完整課程地圖</a><span>第二課 · 資料旅程</span></div></footer>
+</body>
+</html>
