@@ -55,7 +55,7 @@ SPECS_TEXT = r"""
 37|分時 TopN|系列四｜監控、告警與自動化|G2；通知為 G3|報表 → 分時監控報表／Top N；細項依版本核對|針對來源、目的或服務建立排名監控，分清維度、指標、母體與比較基準|每個命中可回到同一時間窗的 TopN 與原始資料，排名變化可被解釋|排名第一不一定超標；小母體中的第一名也可能非常小|分時 TopN 規格與回放結果|定義母體與排名維度;選 Bytes、Sessions 或事件數;設定與歷史比較方式;回放命中並核對原始資料
 38|去重、抑制與告警風暴|系列四｜監控、告警與自動化|G0／G2|告警樣版或監控規則；正式值班策略為 G3|用重複事件案例設計聚合 key、抑制、重新通知與恢復摘要|相同根因的事件被合理合併，不同設備或影響不會被錯誤吞掉|抑制太強會漏告警，太弱會造成風暴；必須記錄被抑制數量|告警風暴前後對照表|選擇穩定聚合 key;定義抑制窗與上限;保留首告、計數與恢復;以相似和不同事件做正反測試
 39|通知群組與測試訊息|系列四｜監控、告警與自動化|G3|系統管理 → 通報設定；只能在逐項授權後操作|設計 LAB 通知群組與測試訊息，核對收件者、內容、時區、連結與停止方式|核准的測試接收者只收到一則可辨識測試訊息，系統有發送與接收證據|未授權不得新增正式收件者或發送；測試失控時須立即停止並清理|通知 Gate 檢查表|確認核准人與測試通道;建立最小收件群組;發送一次帶 LAB 標記的訊息;核對兩端紀錄後刪除
-40|第三方通知整合|系列四｜監控、告警與自動化|G3|通報設定與第三方測試端點；實際供應商依核准方案|以測試端點驗證 Email、Teams、LINE 或 Telegram payload、重試與敏感資料邊界|測試端收到預期欄位，失敗與重試可觀察，secret 未出現在教材或 log|Webhook 與 token 都是 secret；不得貼入頁面、Repo、截圖或聊天紀錄|第三方通知資料契約|定義最小 payload 與遮罩;使用專用測試端點;驗證成功、失敗與重試;撤銷測試 secret 並清理
+40|第三方通知整合|系列四｜監控、告警與自動化|G3|通報設定與第三方測試端點；實際供應商依核准方案|以測試端點驗證 Email、Teams、LINE 或 Telegram payload、重試與敏感資料邊界|測試端收到預期欄位，失敗與重試可觀察，secret 未出現在教材或 log|Webhook URL、token 與 signing secret 等認證材料不得貼入頁面、Repo、截圖或聊天紀錄|第三方通知資料契約|定義最小 payload 與遮罩;使用專用測試端點;驗證成功、失敗與重試;撤銷測試 secret 並清理
 41|轉發與減量轉發|系列四｜監控、告警與自動化|G3|系統管理或資料轉發相關設定；實際入口依版本核對|比較正規化、RAW DATA、原始設備 IP 與減量條件，設計不丟關鍵證據的轉發|測試接收端筆數、欄位、來源、延遲與丟棄規則可和來源端對帳|過度減量會破壞調查證據；轉發也可能擴散敏感資料與流量|轉發前後對帳表|列出必留與可省欄位;定義 filter 與資料邊界;用去識別樣本送測試端;對帳筆數、欄位與失敗路徑
 42|自動執行安全設計|系列四｜監控、告警與自動化|G3|N-Robot／自動化設計；本課不連正式執行端|設計 dry-run、白名單、人工核准、上限、逾時、審計與 rollback|模擬執行可顯示將做什麼、對誰、何時停止，失敗可回復且有紀錄|告警正確不代表自動動作安全；錯誤目標或重試迴圈可能放大事故|自動化安全控制矩陣|先定義禁止動作與白名單;建立 dry-run 與人工核准;設定頻率、上限與逾時;演練失敗、停止與 rollback
 43|情資 IP、黑名單與聯防|系列四｜監控、告警與自動化|G1／G2；封鎖與聯防為 G3|智慧聯防／N-Robot；入口與能力依授權版本核對|先觀察命中，再結合情資信心、資產角色與行為證據評估，不直接封鎖|每個命中都有來源、更新時間、信心、歷史活動、誤判檢查與處置 Gate|IP 會共享、重用或被 CDN／VPN 使用；單一清單命中不是惡意證明|情資命中判讀與 Gate 表|記錄情資來源與新鮮度;查歷史與資產角色;比較支持和反對證據;先告警觀察再決定是否送審
@@ -88,7 +88,7 @@ SPECS_TEXT = r"""
 70|採購、保固與 MA|系列七｜NPSC 證照準備|G0|當期官方政策、合約與案例工作紙|用案例分辨採購、保固、維護與服務責任，建立考前更新清單|每個答案標示適用產品、日期、條款來源與需詢問窗口|商務政策變動快；教材只教核對方法，不宣稱永久期限或價格|政策核對卡|辨識案例是產品、保固或服務;查當期官方條款;分開標準與例外;記錄日期、來源與升級窗口
 71|NPSC 模擬考一|系列七｜NPSC 證照準備|G0|依當期官方公開題數與時間設定；不使用真實考題|進行等比例概念模擬，建立錯題分類與信心標記|作答後能把錯誤分成觀念、題幹、計算、版本與時間管理|未校驗的 NPSC.txt 只有題綱，不能當答案來源；模擬題為能力練習|第一次模擬與錯題簿|核對當期公開規則;限時作答並標信心;依能力類別檢討;排出兩項補強優先序
 72|NPSC 模擬考二與補強|系列七｜NPSC 證照準備|G0|第二套能力模擬與考前檢查表|更換情境第二次限時模擬，驗證補強是否有效並完成考前清單|弱項正確率、作答時間與過度自信題都有前後比較|只重做相同題目會記答案而非補能力；需更換情境與數字|第二次模擬與考前清單|以新情境重新測弱項;比較正確率與時間;複習低信心高風險題;完成版本、證件與應試清單
-73|NPEC 能力地圖與限時策略|系列八｜NPEC／專家實機準備|G0|依官方公開能力與自建模擬任務|把任務拆成讀題、規劃、實作、驗證、排錯與交付，分配限時預算|每階段有時間盒、完成證據、停止條件與保底交付|NPEC.pdf 的 14 題情境可用於能力映射，但首頁敏感資訊不得公開|限時作戰板|先圈交付與限制;安排依賴和風險;預留驗證與排錯;設定超時降級與最後交付
+73|NPEC 能力地圖與限時策略|系列八｜NPEC／專家實機準備|G0|依官方公開能力與自建模擬任務|把任務拆成讀題、規劃、實作、驗證、排錯與交付，分配限時預算|每階段有時間盒、完成證據、停止條件與保底交付|題數、配分與能力範圍必須以當期可追溯的官方公開來源複核；無來源時維持 UNKNOWN|限時作戰板|先圈交付與限制;安排依賴和風險;預留驗證與排錯;設定超時降級與最後交付
 74|需求轉架構與 License|系列八｜NPEC／專家實機準備|G0|限時架構與估算工作紙|在限時內完成元件、拓撲、容量、License、風險與驗收設計|架構圖與算式可追溯需求，假設與待官方確認項目清楚|缺資料時要寫假設與詢問，不可為了作答編造環境數字|限時架構包|擷取來源、量與服務需求;畫最小資料流和故障域;列 License 與容量算式;補驗收、風險與問題清單
 75|設備納管、名稱解析與查詢|系列八｜NPEC／專家實機準備|G2；正式設備與網路為 G3|設備管理、名稱解析、事件查詢；依 LAB 版本核對|在 LAB 完成最小資料流、名稱解析與查詢，保留每段驗證證據|設備、資料接收、解析、名稱顯示與查詢結果都有可回復紀錄|納管會影響 License、輪詢與資料量；只操作核准 LAB 物件|設備納管 tracer bullet|確認 Gate、License 與回復;建立 Gimmy-LAB 設備或模擬來源;驗證收資料與名稱;查詢後刪除並確認無殘留
 76|正規化與異常樣本修正|系列八｜NPEC／專家實機準備|G0／G2|自定義資料格式與 parser 測試|在限時內建立 parser，處理缺欄、編碼、異常字元與格式版本|正反案例全部重跑，欄位字典、差異與回復版本齊全|不能只修考題中的一筆；需避免新規則破壞既有格式|限時 parser 測試包|先保留原始樣本與預期;做最小正常 parser;加入三種異常案例;全組回歸並提交限制
@@ -100,10 +100,10 @@ SPECS_TEXT = r"""
 82|備份範圍與還原點|系列九｜Backend、維護與升級|G1／G2；正式備份與還原為 G3|備份設計、唯讀清單與核准 LAB 還原測試|建立設定、資料、憑證、secret、License 與文件的備份清單，驗證可讀性|每個備份有擁有者、範圍、時間、位置、加密、保留與還原測試結果|看到備份檔不代表可還原；secret 不得寫入教材、Repo 或驗收摘要|備份目錄與還原證據|盤點需保護資產;定義一致性與還原點;驗證檔案、權限和 checksum;在隔離 LAB 做還原抽測
 83|資料庫、儲存與保存容量|系列九｜Backend、維護與升級|G1；清理與策略變更為 G3|系統資訊、容量監控與資料庫唯讀觀察|觀察容量趨勢、保存策略、成長率與查詢影響，設定預警設計|模型包含可用容量、每日成長、尖峰、保留、索引與預計耗盡日|直接刪資料或改 retention 是高風險；本課只做唯讀觀察與方案|容量趨勢與預警計畫|記錄容量與觀察時間;按資料類型估每日成長;計算不同保留情境;提出門檻、擴充與核准清理方案
 84|服務、Log 與健康檢查|系列九｜Backend、維護與升級|G1；重啟與設定變更為 G3|系統資訊、服務狀態與系統紀錄；命令依部署文件核對|從服務狀態、系統紀錄、端點與資料流定位問題層次|健康檢查同時包含程序、依賴、端口、寫入、查詢與時間戳|程序存在不代表功能健康；不得看到紅燈就直接重啟|分層健康檢查表|先看使用者症狀與最近變更;檢查服務和依賴;驗證資料進、處理、存、查;提出最小修復與回復 Gate
-85|版本矩陣、Kernel 與相容性|系列九｜Backend、維護與升級|G1|系統資訊、官方 release note 與相容性矩陣|區分 UI、Kernel、OS、資料庫與元件版本，不混用 6.x、7.0、7.2 套件或路徑|版本矩陣標示現況、目標、支援來源、依賴與禁止組合|相近版本號不代表套件可互換；未取得官方相容證據即為 UNKNOWN|版本與相容性矩陣|盤點所有元件版本;對照當期官方文件;標示升級順序與阻塞;凍結核准套件與 checksum
+85|版本矩陣、Kernel 與相容性|系列九｜Backend、維護與升級|G1|系統資訊、官方 release note 與相容性矩陣|區分 UI、Kernel、OS、資料庫與元件版本，不因版本號相近就混用套件或路徑|版本矩陣標示現況、目標、支援來源、依賴與禁止組合|相近版本號不代表套件可互換；未取得官方相容證據即為 UNKNOWN|版本與相容性矩陣|盤點所有元件版本;對照當期官方文件;標示升級順序與阻塞;凍結核准套件與 checksum
 86|Checksum、變更計畫與 Gate|系列九｜Backend、維護與升級|G1／G2；執行正式變更為 G3|變更單、套件清單與隔離驗證環境|核對檔案 checksum、備份、窗口、風險、回復、核准與通訊計畫|執行前 checksum 與核准清單一致，任何 UNKNOWN 都會阻止 Gate 放行|檔名相同不代表內容相同；checksum 接受後需凍結，不可臨時替換|變更 Gate 套件|確認需求、範圍與擁有者;驗證來源、簽章與 checksum;完成備份、回復和溝通;逐 Gate 記錄 go／no-go
-87|LAB 升級與驗證|系列九｜Backend、維護與升級|G3|只在核准 LAB，依對應版本官方程序|完成升級前、中、後檢查與代表性功能 smoke，保留回復點|版本、服務、收資料、查詢、Dashboard、權限與排程代表流程均有前後證據|不得在已知正式環境演練；未知版本、備份或 rollback 任一項即停止|LAB 升級證據包|凍結版本矩陣與 checksum;建立可驗證備份和回復點;按 Gate 執行並逐步記錄;跑功能 smoke 後決定接受或 rollback
-88|回復與災難演練|系列九｜Backend、維護與升級|G3|隔離 LAB／災難演練環境，不操作未授權正式服務|依故障情境執行 rollback 或 restore，記錄 RTO、RPO、缺口與改善|還原後不只服務啟動，還要驗證資料完整、權限、查詢、告警與交接|沒有實際還原驗證的備份只能稱「有檔案」，不能稱可復原|災難演練報告|宣告情境、RTO、RPO 與成功條件;隔離故障並選 rollback 或 restore;驗證資料和核心功能;記錄實際時間、缺口與改善責任
+87|LAB 升級計畫與驗證設計|系列九｜Backend、維護與升級|G3（本課 plan-only；實際執行須另案核准）|隔離 LAB 升級計畫，不操作未授權服務|規劃並評估升級前、中、後 checkpoint 與代表性功能 smoke；未核准前不得執行|計畫須定義版本、服務、收資料、查詢、Dashboard、權限與排程的前後證據欄，不能宣稱已完成升級|本課只有 plan-only 成果；未知版本、備份、rollback 或核准任一項即停止，不得執行 LAB 或正式環境升級|LAB 升級計畫與評估報告|凍結版本矩陣與 checksum 計畫;設計備份與回復點驗證;規劃逐 Gate checkpoint 與紀錄欄;設計功能 smoke、接受或 rollback 決策
+88|回復與災難演練|系列九｜Backend、維護與升級|G3（本課 plan-only；實際執行須另經核准）|隔離 LAB／災難演練計畫，不操作未授權正式服務|依故障情境規劃 rollback 或 restore 演練，評估 RTO、RPO、缺口與改善；未核准前不得執行|計畫須要求還原後驗證資料完整、權限、查詢、告警與交接；不能宣稱已完成實際復原|本課只有 plan-only 成果；沒有範圍、核准、回復與觀察者時不得執行 rollback、restore 或正式環境操作|災難演練計畫與評估報告|宣告情境、RTO、RPO 與成功條件;規劃隔離故障及 rollback 或 restore 決策;列出資料與核心功能驗證矩陣;安排時間紀錄、缺口追蹤與改善責任
 """
 
 SERIES_RANGE = {
@@ -156,9 +156,28 @@ def load_cases() -> dict[int, Case]:
     return cases
 
 
+def load_lesson_packs() -> dict[int, dict]:
+    """Load the lesson-specific teaching, lab, assessment, and source packs."""
+    path = ROOT / "content" / "lesson_packs.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, list):
+        raise ValueError("lesson_packs.json must contain a list")
+    packs: dict[int, dict] = {}
+    for raw in payload:
+        if not isinstance(raw, dict) or not isinstance(raw.get("n"), int):
+            raise ValueError(f"Invalid lesson pack: {raw}")
+        number = raw["n"]
+        if number in packs:
+            raise ValueError(f"Duplicate lesson pack: {number}")
+        packs[number] = raw
+    if sorted(packs) != list(range(19, 89)):
+        raise ValueError("Lesson pack numbers must be continuous from 19 to 88")
+    return packs
+
+
 def gate_guidance(item: Lesson) -> str:
     if item.number in {87, 88}:
-        return "只有具逐項核准、隔離 LAB、可驗證備份、維護窗口、停止條件與 rollback owner 時，才可執行本課 G3 動作；否則只完成 plan／dry-run。禁止在正式環境演練。"
+        return "本課為 plan-only，只規劃逐項核准、隔離 LAB、可驗證備份、維護窗口、停止條件與 rollback owner；未核准前不得執行。實際 G3 動作須另案核准並依受控程序執行，本課不予放行。禁止在正式環境演練。"
     if item.number in {39, 40, 41}:
         return "只有具逐項核准且使用隔離測試收件匣或端點時，才可執行一次本課 G3 測試；否則只完成 plan／dry-run。禁止正式收件者、正式資料與無上限重試。"
     if item.gate.startswith("G3"):
@@ -182,24 +201,70 @@ def series_label(number: int) -> tuple[str, str]:
     raise KeyError(number)
 
 
-def lesson_html(item: Lesson, all_lessons: list[Lesson], cases: dict[int, Case] | None = None) -> str:
+def lesson_html(item: Lesson, all_lessons: list[Lesson], cases: dict[int, Case] | None = None, packs: dict[int, dict] | None = None) -> str:
     n = item.number
     case = (cases or load_cases())[n]
+    pack = (packs or load_lesson_packs())[n]
     zh = zh_number(n)
     eyebrow, series_short = series_label(n)
     prev_href = f"../day{n-1:02d}/"
     next_href = f"../day{n+1:02d}/" if n < 88 else "../curriculum/"
     next_label = f"第{zh_number(n+1)}課" if n < 88 else "完成 88 課路線"
     next_title = all_lessons[n-18].title if n < 88 else "依角色選路線，持續用證據工作"
-    steps = "".join(
-        f'<article><span>{index}</span><h3>{escape(step)}</h3><p>{escape(("先留下輸入與基準。", "只做本步最小變更。", "以可觀察結果判讀。", "保存證據並準備回復。")[index-1])}</p></article>'
-        for index, step in enumerate(item.steps, 1)
+    prerequisites = "".join(f"<li>{escape(value)}</li>" for value in pack["prerequisites"])
+    concepts = "".join(
+        f'<article><span>{escape(concept["term"])}</span><h3>{escape(concept["explanation"])}</h3><p><b>別混淆：</b>{escape(concept["confusion"])}</p></article>'
+        for concept in pack["concepts"]
     )
-    rows = "".join([
-        f'<tr><td>問題</td><td>{escape(item.objective)}</td><td>先界定時間、範圍與對象</td></tr>',
-        f'<tr><td>完成證據</td><td>{escape(item.evidence)}</td><td>可由另一人重現或核對</td></tr>',
-        f'<tr><td>推論界線</td><td>{escape(item.boundary)}</td><td>不足時標 UNKNOWN，不補故事</td></tr>',
-    ])
+    guided_steps = "".join(
+        f'<article><span>{index}</span><h3>{escape(step["action"])}</h3><p><b>輸入：</b>{escape(step["input"])}</p><p><b>預期：</b>{escape(step["expected"])}</p><p><b>證據：</b>{escape(step["evidence"])}</p><p><b>失敗：</b>{escape(step["failure"])}</p></article>'
+        for index, step in enumerate(pack["guided_steps"], 1)
+    )
+    fixture = pack["fixture"]
+    fixture_headers = "".join(f'<th scope="col">{escape(value)}</th>' for value in fixture["columns"])
+    fixture_rows = "".join(
+        "<tr>" + "".join(f"<td>{escape(str(value))}</td>" for value in row) + "</tr>"
+        for row in fixture["rows"]
+    )
+    task = pack["independent_task"]
+    task_constraints = "".join(f"<li>{escape(value)}</li>" for value in task["constraints"])
+    artifact_fields = "".join(f"<li>{escape(value)}</li>" for value in task["artifact_fields"])
+    acceptance_rows = "".join(
+        f'<tr><td>{escape(item["criterion"])}</td><td>{escape(item["pass"])}</td><td>{escape(item["fail"])}</td><td>{item["points"]}</td></tr>'
+        for item in pack["acceptance"]
+    )
+    troubleshooting = "".join(
+        f'<article><h3>{escape(item["symptom"])}</h3><p><b>最小檢查：</b>{escape(item["check"])}</p><p><b>預期：</b>{escape(item["expected"])}</p><p><b>修正：</b>{escape(item["fix"])}</p><p><b>停止／升級：</b>{escape(item["stop"])}</p></article>'
+        for item in pack["troubleshooting"]
+    )
+    sources = "".join(
+        '<li>'
+        + (f'<a href="{escape(source["url"], quote=True)}" rel="noopener noreferrer">{escape(source["title"])}</a>' if source["url"] else f'<strong>{escape(source["title"])}</strong>')
+        + f'｜{escape(source["status"])}｜複核：{escape(source["reviewed"])}｜適用：{escape(source["applies"])}</li>'
+        for source in pack["sources"]
+    )
+    worksheet_fields = "".join(
+        f'<label for="notes-artifact-{index}"><span>{escape(label)}</span><small>依 fixture 與驗收表填寫；未知項必須明示。</small><textarea id="notes-artifact-{index}" data-notes="artifact-{index}" rows="6" placeholder="填寫：{escape(label)}"></textarea></label>'
+        for index, label in enumerate(task["artifact_fields"], 1)
+    )
+    reference_answer = "".join(f"<li>{escape(value)}</li>" for value in task["reference_answer"])
+    checkpoint_correct = pack["acceptance"][0]["pass"]
+    checkpoint_wrong = (pack["acceptance"][0]["fail"], pack["acceptance"][1]["fail"])
+    case_choices = [
+        ("case-wrong-a", escape(case.wrong[0])),
+        ("case-correct", escape(case.correct)),
+        ("case-wrong-b", escape(case.wrong[1])),
+    ]
+    case_choices = case_choices[n % 3:] + case_choices[:n % 3]
+    case_options = "".join(f'<button type="button" data-choice="{choice}">{label}</button>' for choice, label in case_choices)
+    artifact_choices = [
+        ("artifact-fail-a", escape(checkpoint_wrong[0])),
+        ("artifact-pass", escape(checkpoint_correct)),
+        ("artifact-fail-b", escape(checkpoint_wrong[1])),
+    ]
+    artifact_offset = (n + 1) % 3
+    artifact_choices = artifact_choices[artifact_offset:] + artifact_choices[:artifact_offset]
+    artifact_options = "".join(f'<button type="button" data-choice="{choice}">{label}</button>' for choice, label in artifact_choices)
     safe_location = escape(item.location)
     objective = escape(item.objective)
     evidence = escape(item.evidence)
@@ -212,23 +277,28 @@ def lesson_html(item: Lesson, all_lessons: list[Lesson], cases: dict[int, Case] 
     case_wrong = tuple(escape(value) for value in case.wrong)
     rubric = "".join(f"<li>{escape(value)}</li>" for value in case.rubric)
     safety = escape(gate_guidance(item))
+    goal_action = "依四步流程完成計畫與評估" if n in {87, 88} else "依四步流程完成實作"
     next_kicker = "下一課" if n < 88 else "完成路線"
     next_copy = f"{series_short}路線會把本課成果帶進下一個可驗收工作。" if n < 88 else "回到完整路線，依角色複習、重做 Capstone 或安排實機 Gate。"
     return f'''<!doctype html>
 <html lang="zh-Hant">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="第{zh}課：{escape(item.title)}，含目的、證據、實作、驗收與排錯"><title>第{zh}課｜{escape(item.title)}</title><link rel="stylesheet" href="../assets/styles.css"><script src="../assets/lesson-practice.js" defer></script></head>
 <body data-lesson="lesson{n:02d}" data-lesson-name="第{zh}課"><a class="skip-link" href="#main">跳到主要內容</a><header class="site-header lesson-header"><a class="brand" href="../"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a><nav aria-label="課程導覽"><a href="../curriculum/">完整路線</a><a href="{prev_href}">第{zh_number(n-1)}課</a><span>第{zh}課</span></nav></header>
-<main id="main"><section class="lesson-hero wrap"><div><p class="eyebrow">{eyebrow} · LESSON {n:02d}</p><h1>{escape(item.title)}<br><em>做出能被核對的成果</em></h1><p class="hero-copy">{objective}</p></div><aside class="goal-card" aria-label="本課學習目標"><span>本課目標</span><ol><li>先說明目的與證據界線</li><li>依四步流程完成實作</li><li>交付「{deliverable}」並能排錯</li></ol><small>建議時間：約 70–90 分鐘｜{gate}</small></aside></section>
-<div class="lesson-layout wrap"><aside class="lesson-nav" aria-label="本課章節"><p>本課章節</p><a href="#purpose">01 目的與成果</a><a href="#location">02 位置與界線</a><a href="#workflow">03 四步工作法</a><a href="#evidence">04 證據模型</a><a href="#practice-one">05 跟著做</a><a href="#practice-two">06 獨立挑戰</a><a href="#troubleshoot">07 排錯</a><a href="#debrief">08 詳解</a><a href="#complete">09 完成紀錄</a></aside><article class="lesson-content">
+<main id="main"><section class="lesson-hero wrap"><div><p class="eyebrow">{eyebrow} · LESSON {n:02d}</p><h1>{escape(item.title)}<br><em>做出能被核對的成果</em></h1><p class="hero-copy">{objective}</p></div><aside class="goal-card" aria-label="本課學習目標"><span>本課目標</span><ol><li>先說明目的與證據界線</li><li>{goal_action}</li><li>交付「{deliverable}」並能排錯</li></ol><small>建議時間：約 70–90 分鐘｜{gate}</small></aside></section>
+<div class="lesson-layout wrap"><aside class="lesson-nav" aria-label="本課章節"><p>本課章節</p><a href="#purpose">01 目的與成果</a><a href="#concepts">02 先備與概念</a><a href="#location">03 位置與界線</a><a href="#fixture">04 練習資料</a><a href="#guided">05 逐步跟做</a><a href="#practice-one">06 判讀檢查</a><a href="#practice-two">07 獨立任務</a><a href="#worksheet">08 產物工作紙</a><a href="#acceptance">09 100 分驗收</a><a href="#troubleshoot">10 專屬排錯</a><a href="#sources">11 來源與版本</a><a href="#debrief">12 教師版</a><a href="#complete">13 完成紀錄</a></aside><article class="lesson-content">
 <section id="purpose" class="lesson-section"><p class="section-index">01</p><h2>先確定這課要解決什麼</h2><div class="metric-grid"><article><span>Question</span><strong>核心問題</strong><small>{objective}</small></article><article><span>Artifact</span><strong>{deliverable}</strong><small>不是只看畫面，而是留下可交接成果</small></article><article><span>Evidence</span><strong>可重現</strong><small>{evidence}</small></article><article><span>Boundary</span><strong>不超過證據</strong><small>{boundary}</small></article></div></section>
-<section id="location" class="lesson-section"><p class="section-index">02</p><h2>位置、版本與安全 Gate</h2><div class="formula-card"><span>候選入口｜必須以實機版本與角色核對</span><strong>{safe_location}</strong><p>教材只固定工作目的與驗收證據，不把未核對的子選單、按鈕或欄位畫成真實 UI。</p></div><div class="lab-card"><span>{gate}</span><h3>操作邊界</h3><ol><li>G0 可用去識別樣本反覆練習。</li><li>G1 只查詢、檢視與核准匯出。</li><li>G2 僅在 LAB 以 <code>Gimmy-LAB-</code> 前綴建立可清理物件。</li><li>任何外送、正式來源、自動執行、升級或服務變更均須逐項 G3 Gate。</li></ol></div></section>
-<section id="workflow" class="lesson-section"><p class="section-index">03</p><h2>用四步工作法，不靠記按鈕</h2><div class="stage-list">{steps}</div><p class="data-note"><b>停止條件：</b>環境、角色、版本、影響範圍、回復方式或核准任一項不清楚，就停在觀察與設計，不自行補做正式變更。</p></section>
-<section id="evidence" class="lesson-section"><p class="section-index">04</p><h2>教學模擬：證據、限制與驗收</h2><div class="record-sample lesson-case"><span>本課練習資料｜去識別／文件保留範圍</span><p>{case_input}</p><small>此案例只用來練判讀，不代表真實 N-Cloud 畫面、欄位、客戶資料或正式操作結果。</small></div><div class="breakpoint-table-wrap" tabindex="0" aria-label="可左右捲動：第{zh}課教學模擬證據表"><table class="breakpoint-table"><caption>教學模擬證據表｜不代表真實 N-Cloud 畫面、欄位或客戶資料</caption><thead><tr><th scope="col">層次</th><th scope="col">本課內容</th><th scope="col">核對方式</th></tr></thead><tbody>{rows}</tbody></table></div></section>
-<section id="practice-one" class="lesson-section practice-section"><p class="section-index">05</p><p class="practice-label">跟著做 · 約 18 分鐘</p><h2>實作一：判讀本課案例</h2><div class="quiz-card" data-quiz="case-{n}" data-correct="case-correct" data-explain="可核對答案：{case_correct}" data-hint="回到練習資料，分開已知、未知、證據界線與 Gate。"><h3>{case_question}</h3><div class="quiz-options"><button type="button" data-choice="case-wrong-a">{case_wrong[0]}</button><button type="button" data-choice="case-correct">{case_correct}</button><button type="button" data-choice="case-wrong-b">{case_wrong[1]}</button></div><p class="quiz-status" data-quiz-status>尚未答對</p><div class="feedback" data-feedback hidden></div></div><div class="acceptance-box"><b>完成條件｜案例驗收 rubric</b><ul>{rubric}</ul></div></section>
-<section id="practice-two" class="lesson-section practice-section"><p class="section-index">06</p><p class="practice-label">獨立挑戰 · 約 20 分鐘</p><h2>實作二：做出可交付成果</h2><div class="quiz-card" data-quiz="workflow-{n}" data-correct="workflow-safe" data-explain="可靠流程是：{escape(' → '.join(item.steps))}。每一步都保留輸入、結果與停止條件。" data-hint="先找最小、可逆、可驗證的下一步，不要跳過 Gate。"><h3>離開案例提示後，哪個執行順序仍可重現？</h3><div class="quiz-options"><button type="button" data-choice="workflow-shortcut">直接做出「{deliverable}」，最後再補理由</button><button type="button" data-choice="workflow-safe">{escape(' → '.join(item.steps))}</button><button type="button" data-choice="workflow-overreach">忽略 Gate，在正式環境一次完成全部設定</button></div><p class="quiz-status" data-quiz-status>尚未答對</p><div class="feedback" data-feedback hidden></div></div><div class="lab-card"><span>本課交付</span><h3>{deliverable}</h3><ol><li>使用本課練習資料，按 rubric 寫出判讀或產物。</li><li>記錄環境、角色、版本、輸入、絕對時間與操作層級。</li><li>附上成功、反例與限制證據，不含帳密或客戶識別。</li><li>若有 G2 物件，完成刪除並確認無殘留；G3 依本課核准邊界停止。</li></ol></div></section>
-<section id="troubleshoot" class="lesson-section"><p class="section-index">07</p><h2>排錯：結果不對時先查哪裡</h2><div class="troubleshoot-grid"><article><h3>找不到功能</h3><p>先核對 UI／Kernel、角色、License 與目前環境；不照別版截圖盲找。</p></article><article><h3>沒有資料</h3><p>確認時間、時區、範圍、來源健康與資料類型，再逐步放寬條件。</p></article><article><h3>結果無法重現</h3><p>固定輸入、絕對時間、版本與欄位；分開資料變動和操作差異。</p></article><article><h3>結論太快</h3><p>回到本課界線：{boundary}</p></article></div></section>
-<section id="debrief" class="lesson-section"><p class="section-index">08</p><h2>詳解：完成不等於按完按鈕</h2><div class="key-point"><b>案例詳解</b><p>{case_correct}</p></div><div class="compare-grid"><article><h3>容易誤判</h3><p>{boundary}</p></article><article><h3>安全做法</h3><p>{safety}</p></article></div></section>
-<section id="complete" class="lesson-section"><p class="section-index">09</p><h2>完成第{zh}課學習紀錄</h2><p class="lead">兩題答對，並確認三項能力。</p><label class="check-row"><input type="checkbox" data-progress="purpose"><span>我能說明本課目的、位置與安全 Gate</span></label><label class="check-row"><input type="checkbox" data-progress="evidence"><span>我能用可重現證據驗收「{deliverable}」</span></label><label class="check-row"><input type="checkbox" data-progress="boundary"><span>我知道本課證據不能證明什麼，以及何時停止</span></label><div class="progress-row"><span id="progress-text">0 / 3</span><div class="progress-track" role="progressbar" aria-label="本課自評進度" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i id="progress-bar"></i></div></div><button class="button primary" id="finish-button" type="button">完成第{zh}課</button><p id="completion-message" class="completion-message" role="status"></p><div class="next-lesson-note"><span>{next_kicker}</span><strong>{escape(next_title)}</strong><p>{escape(next_copy)}</p><a class="text-link" href="{next_href}">{next_label} →</a></div></section>
+<section id="concepts" class="lesson-section"><p class="section-index">02</p><h2>先備能力與三個本課概念</h2><div class="acceptance-box"><b>開始前先確認</b><ul>{prerequisites}</ul></div><div class="metric-grid lesson-concepts">{concepts}</div></section>
+<section id="location" class="lesson-section"><p class="section-index">03</p><h2>位置、版本與安全 Gate</h2><div class="formula-card"><span>候選入口｜必須以實機版本與角色核對</span><strong>{safe_location}</strong><p>教材只固定工作目的與驗收證據，不把未核對的子選單、按鈕或欄位畫成真實 UI。</p></div><div class="lab-card"><span>{gate}</span><h3>操作邊界</h3><ol><li>G0 可用去識別樣本反覆練習。</li><li>G1 只查詢、檢視與核准匯出。</li><li>G2 僅在核准 LAB 建立可清理物件。</li><li>任何外送、正式來源、自動執行、升級或服務變更均須逐項 G3 Gate。</li></ol></div></section>
+<section id="fixture" class="lesson-section"><p class="section-index">04</p><h2>{escape(fixture["title"])}</h2><div class="record-sample lesson-case"><span>本課 fixture｜去識別／文件保留範圍</span><p>{case_input}</p><small>資料供本課計算、判讀與故障練習，不代表正式產品輸出。</small></div><div class="breakpoint-table-wrap" tabindex="0" aria-label="可左右捲動：第{zh}課練習資料"><table class="breakpoint-table"><caption>{escape(fixture["title"])}｜教學模擬資料</caption><thead><tr>{fixture_headers}</tr></thead><tbody>{fixture_rows}</tbody></table></div></section>
+<section id="guided" class="lesson-section"><p class="section-index">05</p><h2>跟著做：每一步都有預期與失敗訊號</h2><div class="stage-list deep-steps">{guided_steps}</div><p class="data-note"><b>停止條件：</b>環境、角色、版本、影響範圍、回復方式或核准任一項不清楚，就停在觀察與設計。</p></section>
+<section id="practice-one" class="lesson-section practice-section"><p class="section-index">06</p><p class="practice-label">觀念檢查 · 約 10 分鐘</p><h2>用 fixture 判讀案例</h2><div class="quiz-card" data-quiz="case-{n}" data-correct="case-correct" data-explain="可核對答案：{case_correct}" data-hint="回到 fixture，分開已知、未知、證據界線與 Gate。"><h3>{case_question}</h3><div class="quiz-options">{case_options}</div><p class="quiz-status" data-quiz-status>尚未答對</p><div class="feedback" data-feedback hidden></div></div><div class="acceptance-box"><b>案例檢查點</b><ul>{rubric}</ul></div></section>
+<section id="practice-two" class="lesson-section practice-section"><p class="section-index">07</p><p class="practice-label">獨立任務 · 約 25 分鐘</p><h2>{escape(task["brief"])}</h2><div class="compare-grid"><article><h3>限制</h3><ul>{task_constraints}</ul></article><article><h3>必交欄位</h3><ul>{artifact_fields}</ul></article></div><div class="quiz-card" data-quiz="artifact-{n}" data-correct="artifact-pass" data-explain="通過條件：{escape(checkpoint_correct)}" data-hint="用下方 100 分驗收表判斷，不以完成按鈕取代產物。"><h3>針對「{escape(task["brief"])}」，哪個描述達到第一項通過條件？</h3><div class="quiz-options">{artifact_options}</div><p class="quiz-status" data-quiz-status>尚未答對</p><div class="feedback" data-feedback hidden></div></div></section>
+<section id="worksheet" class="lesson-section worksheet-section"><p class="section-index">08</p><p class="practice-label">產物工作紙 · 約 20 分鐘</p><h2>填妥本課交付物</h2><p class="lead">每一欄都對應本課必交產物；內容只保存在這個瀏覽器並可列印。請勿填入帳密、token、認證材料或客戶識別。</p><div class="worksheet-grid">{worksheet_fields}</div><p class="worksheet-status" data-notes-status role="status">工作紙 0 / {len(task["artifact_fields"])} 欄已填</p></section>
+<section id="acceptance" class="lesson-section"><p class="section-index">09</p><h2>完成條件：100 分驗收表</h2><div class="breakpoint-table-wrap" tabindex="0" aria-label="可左右捲動：本課量化驗收表"><table class="breakpoint-table"><caption>本課產物驗收｜總分 100，70 分通過；任一安全 Gate 違反仍不通過</caption><thead><tr><th scope="col">項目</th><th scope="col">通過</th><th scope="col">不通過</th><th scope="col">分數</th></tr></thead><tbody>{acceptance_rows}</tbody></table></div></section>
+<section id="troubleshoot" class="lesson-section"><p class="section-index">10</p><h2>本課專屬排錯</h2><div class="troubleshoot-grid">{troubleshooting}</div></section>
+<section id="sources" class="lesson-section"><p class="section-index">11</p><h2>來源、版本與複核狀態</h2><ul class="source-list">{sources}</ul><p class="data-note"><b>來源 Gate：</b>標示 CONTROLLED_SOURCE_REQUIRED 的產品能力、路徑、授權或政策，在取得當期受控來源前一律是 UNKNOWN，不作為正式操作或報價依據。</p></section>
+<section id="debrief" class="lesson-section"><p class="section-index">12</p><h2>教師版與錯項解析</h2><div class="key-point"><b>案例答案</b><p>{case_correct}</p></div><div class="compare-grid"><article><h3>錯項一</h3><p>{case_wrong[0]}</p></article><article><h3>錯項二</h3><p>{case_wrong[1]}</p></article></div><details class="reference-answer"><summary>完成獨立任務後再展開參考成果</summary><ul>{reference_answer}</ul></details><div class="key-point"><b>安全界線</b><p>{safety}</p></div></section>
+<section id="complete" class="lesson-section"><p class="section-index">13</p><h2>完成第{zh}課學習紀錄</h2><p class="lead">兩題答對、產物工作紙 {len(task["artifact_fields"])} 欄完成，並確認三項能力；本頁完成不等於實機認證通過。</p><label class="check-row"><input type="checkbox" data-progress="purpose"><span>我能說明本課目的、位置與安全 Gate</span></label><label class="check-row"><input type="checkbox" data-progress="evidence"><span>我能依 100 分表驗收「{deliverable}」</span></label><label class="check-row"><input type="checkbox" data-progress="boundary"><span>我知道本課證據不能證明什麼，以及何時停止</span></label><div class="progress-row"><span id="progress-text">0 / 3</span><div class="progress-track" role="progressbar" aria-label="本課自評進度" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i id="progress-bar"></i></div></div><button class="button primary" id="finish-button" type="button">完成第{zh}課</button><p id="completion-message" class="completion-message" role="status"></p><div class="next-lesson-note"><span>{next_kicker}</span><strong>{escape(next_title)}</strong><p>{escape(next_copy)}</p><a class="text-link" href="{next_href}">{next_label} →</a></div></section>
 </article></div></main><footer><div class="wrap"><a href="{prev_href}">← 第{zh_number(n-1)}課</a><a href="../">回課程首頁</a><a href="{next_href}">{next_label} →</a></div></footer></body></html>
 '''
 
@@ -285,10 +355,11 @@ def update_curriculum_links(lessons: list[Lesson]) -> None:
 def main() -> None:
     lessons = parse_specs()
     cases = load_cases()
+    packs = load_lesson_packs()
     for item in lessons:
         path = ROOT / f"day{item.number:02d}" / "index.html"
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(lesson_html(item, lessons, cases), encoding="utf-8")
+        path.write_text(lesson_html(item, lessons, cases, packs), encoding="utf-8")
     update_curriculum_links(lessons)
     curriculum = (ROOT / "curriculum" / "index.html").read_text(encoding="utf-8")
     targets = set(re.findall(r'href="\.\./day(\d{2})/"', curriculum))

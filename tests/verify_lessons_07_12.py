@@ -100,7 +100,9 @@ day12 = (ROOT / "day12" / "index.html").read_text(encoding="utf-8")
 assert "18.4 GB" not in day12, "day12 traffic must remain physically possible on the stated 100 Mbps WAN"
 
 js = (ROOT / "assets" / "lesson-practice.js").read_text(encoding="utf-8")
-assert "practicesDone===quizIds.length" in js
+assert "function completionReady()" in js
+assert "boxes.every(box=>box.checked)&&quizIds.every(id=>solved[id])&&notes.every(field=>field.value.trim())" in js
+assert "revokeCompletionIfInvalid()" in js
 assert "aria-valuenow" in js
 assert not re.search(r"\bTODO\b", "\n".join((ROOT / f"day{n:02d}" / "index.html").read_text() for n in range(7, 13)))
 print("LESSONS_07_12_CONTRACT_PASS lessons=6 min_sections=7 min_quizzes=2 progress=3")

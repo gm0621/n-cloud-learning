@@ -86,12 +86,12 @@
           <p class="lead">不同設備可能用不同名稱表達相同概念。正規化的目的，是讓它們可以用同一套方式查詢。</p>
           <div class="normalize-demo">
             <div class="raw-record">
-              <span>原始紀錄 A</span><code>time=14:03 src=10.0.0.8 dst=203.0.113.20 action=deny</code>
-              <span>原始紀錄 B</span><code>event_at=14:03 client=10.0.0.8 server=203.0.113.20 result=blocked</code>
+              <span>原始紀錄 A</span><code>time=14:03 src=192.0.2.8 dst=203.0.113.20 action=deny</code>
+              <span>原始紀錄 B</span><code>event_at=14:03 client=192.0.2.8 server=203.0.113.20 result=blocked</code>
             </div>
             <div class="normalize-arrow" aria-hidden="true">↓ 正規化</div>
             <div class="field-chips" aria-label="正規化後的共同欄位">
-              <span><b>時間</b> 14:03</span><span><b>來源 IP</b> 10.0.0.8</span><span><b>目的 IP</b> 203.0.113.20</span><span><b>動作</b> 阻擋</span>
+              <span><b>時間</b> 14:03</span><span><b>來源 IP</b> 192.0.2.8</span><span><b>目的 IP</b> 203.0.113.20</span><span><b>動作</b> 阻擋</span>
             </div>
           </div>
           <div class="compare-grid">
