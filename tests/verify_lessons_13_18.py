@@ -90,9 +90,9 @@ def verify_lesson(number: int):
 for lesson in range(13, 19):
     verify_lesson(lesson)
 
-home = (ROOT / "index.html").read_text(encoding="utf-8")
+curriculum = (ROOT / "curriculum" / "index.html").read_text(encoding="utf-8")
 for lesson in range(13, 19):
-    assert f'href="day{lesson:02d}/"' in home, f"home missing day{lesson:02d} link"
+    assert f'href="../day{lesson:02d}/"' in curriculum, f"curriculum missing day{lesson:02d} link"
 
 day12 = (ROOT / "day12" / "index.html").read_text(encoding="utf-8")
 assert 'href="../day13/"' in day12, "day12 must continue to day13"

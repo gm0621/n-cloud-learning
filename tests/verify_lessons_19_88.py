@@ -299,7 +299,7 @@ for number, required_terms in {
         assert term in lesson_blob, f"lesson {number} missing required technical boundary: {term}"
 
 curriculum = (ROOT / "curriculum" / "index.html").read_text(encoding="utf-8")
-detail_blocks = re.findall(r"<details(?: open)?>.*?</details>", curriculum, flags=re.DOTALL)
+detail_blocks = re.findall(r"<details[^>]*>.*?</details>", curriculum, flags=re.DOTALL)
 series_targets = [
     int(number)
     for block in detail_blocks

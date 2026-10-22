@@ -18,7 +18,29 @@
       <p class="eyebrow">FOUNDATION · OPERATION · EXPERT · CERTIFICATION</p>
       <h1>從基礎到專家，<br><em>依你的角色選路線</em></h1>
       <p class="hero-copy">第 1～12 課是共同基礎。完成後依工作目標分流到實機操作、資料接入、監控、事件調查、SE／POC、NPSC、NPEC 或 Backend 維護，不必每個人照順序修完全部課程。</p>
-      <div class="hero-actions"><a class="button primary" href="#series">查看九個系列</a><a class="button ghost" href="../">回基礎課程</a></div>
+      <div class="hero-actions"><a class="button primary" href="#role-paths">先選角色路線</a><a class="button ghost" href="#series">直接看九個系列</a><a class="button ghost" href="../">回學習入口</a></div>
+    </section>
+
+    <section class="section wrap role-paths-section" id="role-paths" aria-labelledby="paths-title">
+      <div class="section-heading entry-heading"><div><p class="eyebrow">CHOOSE YOUR PATH</p><h2 id="paths-title">先選角色，再看需要的系列</h2></div><p>不用全部修完。每條路都標示起點與建議順序；第一次接觸 N-Cloud，先走共同基礎。</p></div>
+      <div class="role-path-grid">
+        <a class="role-path-card" id="path-foundation" href="../day01/">
+          <span class="role-path-label">第一次學</span><h3>共同基礎</h3><p>建立資料來源、欄位、監控與事件調查的共同語言。</p>
+          <ol aria-label="共同基礎學習順序"><li>系列一</li><li>第 1～12 課</li></ol><strong>從第 1 課開始 <span aria-hidden="true">→</span></strong>
+        </a>
+        <a class="role-path-card" id="path-operations" href="#series-2">
+          <span class="role-path-label">日常工作</span><h3>維運與事件調查</h3><p>先能查詢與監控，再處理告警、故障與跨資料事件。</p>
+          <ol aria-label="維運學習順序"><li>系列一 基礎</li><li>系列二 實機</li><li>系列四 監控</li><li>系列五 事件</li></ol><strong>查看推薦系列 <span aria-hidden="true">→</span></strong>
+        </a>
+        <a class="role-path-card" id="path-se" href="#series-6">
+          <span class="role-path-label">專案工作</span><h3>SE／導入與 Backend</h3><p>把需求轉成接入、架構、POC、驗收、交接與安全維護。</p>
+          <ol aria-label="導入學習順序"><li>系列二 實機</li><li>系列三 正規化</li><li>系列六 POC</li><li>系列九 Backend</li></ol><strong>查看推薦系列 <span aria-hidden="true">→</span></strong>
+        </a>
+        <a class="role-path-card" id="path-certification" href="#series-7">
+          <span class="role-path-label">能力驗證</span><h3>NPSC／NPEC 考照</h3><p>依公開能力範圍補齊觀念，並用模擬與限時實作驗收。</p>
+          <ol aria-label="考照學習順序"><li>系列一 基礎</li><li>系列七 NPSC</li><li>系列八 NPEC</li></ol><strong>查看考照系列 <span aria-hidden="true">→</span></strong>
+        </a>
+      </div>
     </section>
 
     <section class="section wrap" aria-labelledby="contract-title">
@@ -44,27 +66,18 @@
     <section class="section wrap" id="series" aria-labelledby="series-title">
       <div class="section-heading"><div><p class="eyebrow">9 LEARNING SERIES</p><h2 id="series-title">九個系列，依目標分流</h2></div><p>共 88 課，全部已有可學頁面、互動實作、驗收條件與排錯指引。</p></div>
       <div class="series-list">
-        <details open><summary><span>系列一 · 01～12</span><strong>N-Cloud 基礎</strong><em>共同必修</em></summary><div class="series-body"><p>從四類資料、欄位判讀到基本監控與事件調查。</p><ol><li><a href="../day01/">N-Cloud 在做什麼</a></li><li><a href="../day02/">資料如何進入 N-Cloud</a></li><li><a href="../day03/">Syslog 欄位與事件</a></li><li><a href="../day04/">Flow 與通聯分析</a></li><li><a href="../day05/">SNMP 與設備健康</a></li><li><a href="../day06/">PM、SLA 與服務品質</a></li><li><a href="../day07/">時間範圍與搜尋條件</a></li><li><a href="../day08/">TopN、報表與 Dashboard</a></li><li><a href="../day09/">門檻、規則與告警</a></li><li><a href="../day10/">故障排查方法</a></li><li><a href="../day11/">資安事件調查</a></li><li><a href="../day12/">綜合事件調查</a></li></ol></div></details>
-        <details open><summary><span>系列二 · 13～24</span><strong>N-Cloud 實機操作</strong><em>G1 → G2</em></summary><div class="series-body"><p>從環境安全、事件查詢一路做到 TopN、PM 與值班人員綜合實作。</p><ol><li><a href="../day13/">LAB 安全、版本與角色權限</a></li><li><a href="../day14/">系統資訊與設備樹</a></li><li><a href="../day15/">事件查詢入門</a></li><li><a href="../day16/">RAW DATA 與欄位</a></li><li><a href="../day17/">IP 名稱解析與 CSV</a></li><li><a href="../day18/">儲存查詢與欄位版面</a></li><li><a href="../day19/">TopN 與 TopN × TopN</a></li><li><a href="../day20/">報表與排程輸出</a></li><li><a href="../day21/">Dashboard 元件</a></li><li><a href="../day22/">SNMP 設備檢視</a></li><li><a href="../day23/">PM：Ping／Web／Port</a></li><li><a href="../day24/">值班人員綜合實作</a></li></ol></div></details>
-        <details><summary><span>系列三 · 25～34</span><strong>資料接入與正規化</strong><em>進階</em></summary><div class="series-body"><p>讓陌生設備與應用程式紀錄成為可靠、可搜尋的資料。</p><ol><li><a href="../day25/">Syslog Facility、Severity 與格式</a></li><li><a href="../day26/">Windows Event 與 NXLog</a></li><li><a href="../day27/">應用程式與多行 Log</a></li><li><a href="../day28/">Tag-Value 正規化</a></li><li><a href="../day29/">Delimiter 正規化</a></li><li><a href="../day30/">CEF 與 Label 關係</a></li><li><a href="../day31/">時間、時區與事件時間</a></li><li><a href="../day32/">Parser 測試與失敗診斷</a></li><li><a href="../day33/">N-Probe／External Receiver 概念</a></li><li><a href="../day34/">新資料源 Onboarding 實作</a></li></ol></div></details>
-        <details><summary><span>系列四 · 35～44</span><strong>監控、告警與自動化</strong><em>進階</em></summary><div class="series-body"><p>從基準線、門檻與抑制，走到安全可維護的通知與聯防設計。</p><ol><li><a href="../day35/">基準線與門檻設計</a></li><li><a href="../day36/">分時監控</a></li><li><a href="../day37/">分時 TopN</a></li><li><a href="../day38/">去重、抑制與告警風暴</a></li><li><a href="../day39/">通知群組與測試訊息</a></li><li><a href="../day40/">第三方通知整合</a></li><li><a href="../day41/">轉發與減量轉發</a></li><li><a href="../day42/">自動執行安全設計</a></li><li><a href="../day43/">情資 IP、黑名單與聯防</a></li><li><a href="../day44/">監控工程 Capstone</a></li></ol></div></details>
-        <details><summary><span>系列五 · 45～54</span><strong>事件調查與維運情境</strong><em>情境實戰</em></summary><div class="series-body"><p>處理 VPN、頻寬、介面、網站、檔案稽核與情資命中等真實情境。</p><ol><li><a href="../day45/">事件分級與 Triage</a></li><li><a href="../day46/">VPN 登入異常</a></li><li><a href="../day47/">頻寬異常與 Top Talker</a></li><li><a href="../day48/">設備介面不穩</a></li><li><a href="../day49/">網站慢與 SLA</a></li><li><a href="../day50/">Windows／NAS 檔案稽核</a></li><li><a href="../day51/">AD、使用者與 IP 關聯</a></li><li><a href="../day52/">情資命中與誤判</a></li><li><a href="../day53/">調查報告與交接</a></li><li><a href="../day54/">跨資料事件 Capstone</a></li></ol></div></details>
-        <details><summary><span>系列六 · 55～64</span><strong>SE、POC 與客戶導入</strong><em>專案實戰</em></summary><div class="series-body"><p>把需求轉成架構、Sizing、POC、驗收、Runbook 與客戶交接。</p><ol><li><a href="../day55/">需求訪談與問題定義</a></li><li><a href="../day56/">產品、元件與資料流選擇</a></li><li><a href="../day57/">License 與 Sizing 基礎</a></li><li><a href="../day58/">拓撲、HA 與故障域</a></li><li><a href="../day59/">POC 計畫與成功條件</a></li><li><a href="../day60/">初始設定與資料接入</a></li><li><a href="../day61/">效能、容量與保存策略</a></li><li><a href="../day62/">驗收、UAT 與缺陷管理</a></li><li><a href="../day63/">Runbook、交接與教育訓練</a></li><li><a href="../day64/">客戶導入 Capstone</a></li></ol></div></details>
-        <details><summary><span>系列七 · 65～72</span><strong>NPSC 證照準備</strong><em>公開範圍</em></summary><div class="series-body"><p>依官方公開能力範圍更新，不宣稱或重製真實考題。</p><ol><li><a href="../day65/">N-Partner 產品線與定位</a></li><li><a href="../day66/">架構、元件與核心技術</a></li><li><a href="../day67/">Syslog、Flow、SNMP、PM 高頻觀念</a></li><li><a href="../day68/">常用操作、Dashboard 與稽核</a></li><li><a href="../day69/">License 計算專題</a></li><li><a href="../day70/">採購、保固與 MA</a></li><li><a href="../day71/">NPSC 模擬考一</a></li><li><a href="../day72/">NPSC 模擬考二與補強</a></li></ol></div></details>
-        <details><summary><span>系列八 · 73～80</span><strong>NPEC／專家實機準備</strong><em>能力模擬</em></summary><div class="series-body"><p>不臆測未公開考題；練習需求、架構、實機、排錯與限時交付。</p><ol><li><a href="../day73/">NPEC 能力地圖與限時策略</a></li><li><a href="../day74/">需求轉架構與 License</a></li><li><a href="../day75/">設備納管、名稱解析與查詢</a></li><li><a href="../day76/">正規化與異常樣本修正</a></li><li><a href="../day77/">TopN、監控、通知與 Dashboard</a></li><li><a href="../day78/">故障注入與系統化排錯</a></li><li><a href="../day79/">三小時整合模擬一</a></li><li><a href="../day80/">三小時整合模擬二</a></li></ol></div></details>
-        <details><summary><span>系列九 · 81～88</span><strong>Backend、維護與升級</strong><em>G3</em></summary><div class="series-body"><p>理解健康、備份、容量、版本、升級與回復；正式環境逐項 Gate。</p><ol><li><a href="../day81/">Backend 導覽與系統資訊</a></li><li><a href="../day82/">備份範圍與還原點</a></li><li><a href="../day83/">資料庫、儲存與保存容量</a></li><li><a href="../day84/">服務、Log 與健康檢查</a></li><li><a href="../day85/">版本矩陣、Kernel 與相容性</a></li><li><a href="../day86/">Checksum、變更計畫與 Gate</a></li><li><a href="../day87/">LAB 升級計畫與驗證設計</a></li><li><a href="../day88/">回復與災難演練</a></li></ol></div></details>
+        <details id="series-1" open><summary><span>系列一 · 01～12</span><strong>N-Cloud 基礎</strong><em>共同必修</em></summary><div class="series-body"><p>從四類資料、欄位判讀到基本監控與事件調查。</p><ol start="1"><li><a href="../day01/">N-Cloud 在做什麼</a></li><li><a href="../day02/">資料如何進入 N-Cloud</a></li><li><a href="../day03/">Syslog 欄位與事件</a></li><li><a href="../day04/">Flow 與通聯分析</a></li><li><a href="../day05/">SNMP 與設備健康</a></li><li><a href="../day06/">PM、SLA 與服務品質</a></li><li><a href="../day07/">時間範圍與搜尋條件</a></li><li><a href="../day08/">TopN、報表與 Dashboard</a></li><li><a href="../day09/">門檻、規則與告警</a></li><li><a href="../day10/">故障排查方法</a></li><li><a href="../day11/">資安事件調查</a></li><li><a href="../day12/">綜合事件調查</a></li></ol></div></details>
+        <details id="series-2"><summary><span>系列二 · 13～24</span><strong>N-Cloud 實機操作</strong><em>G1 → G2</em></summary><div class="series-body"><p>從環境安全、事件查詢一路做到 TopN、PM 與值班人員綜合實作。</p><ol start="13"><li><a href="../day13/">LAB 安全、版本與角色權限</a></li><li><a href="../day14/">系統資訊與設備樹</a></li><li><a href="../day15/">事件查詢入門</a></li><li><a href="../day16/">RAW DATA 與欄位</a></li><li><a href="../day17/">IP 名稱解析與 CSV</a></li><li><a href="../day18/">儲存查詢與欄位版面</a></li><li><a href="../day19/">TopN 與 TopN × TopN</a></li><li><a href="../day20/">報表與排程輸出</a></li><li><a href="../day21/">Dashboard 元件</a></li><li><a href="../day22/">SNMP 設備檢視</a></li><li><a href="../day23/">PM：Ping／Web／Port</a></li><li><a href="../day24/">值班人員綜合實作</a></li></ol></div></details>
+        <details id="series-3"><summary><span>系列三 · 25～34</span><strong>資料接入與正規化</strong><em>進階</em></summary><div class="series-body"><p>讓陌生設備與應用程式紀錄成為可靠、可搜尋的資料。</p><ol start="25"><li><a href="../day25/">Syslog Facility、Severity 與格式</a></li><li><a href="../day26/">Windows Event 與 NXLog</a></li><li><a href="../day27/">應用程式與多行 Log</a></li><li><a href="../day28/">Tag-Value 正規化</a></li><li><a href="../day29/">Delimiter 正規化</a></li><li><a href="../day30/">CEF 與 Label 關係</a></li><li><a href="../day31/">時間、時區與事件時間</a></li><li><a href="../day32/">Parser 測試與失敗診斷</a></li><li><a href="../day33/">N-Probe／External Receiver 概念</a></li><li><a href="../day34/">新資料源 Onboarding 實作</a></li></ol></div></details>
+        <details id="series-4"><summary><span>系列四 · 35～44</span><strong>監控、告警與自動化</strong><em>進階</em></summary><div class="series-body"><p>從基準線、門檻與抑制，走到安全可維護的通知與聯防設計。</p><ol start="35"><li><a href="../day35/">基準線與門檻設計</a></li><li><a href="../day36/">分時監控</a></li><li><a href="../day37/">分時 TopN</a></li><li><a href="../day38/">去重、抑制與告警風暴</a></li><li><a href="../day39/">通知群組與測試訊息</a></li><li><a href="../day40/">第三方通知整合</a></li><li><a href="../day41/">轉發與減量轉發</a></li><li><a href="../day42/">自動執行安全設計</a></li><li><a href="../day43/">情資 IP、黑名單與聯防</a></li><li><a href="../day44/">監控工程 Capstone</a></li></ol></div></details>
+        <details id="series-5"><summary><span>系列五 · 45～54</span><strong>事件調查與維運情境</strong><em>情境實戰</em></summary><div class="series-body"><p>處理 VPN、頻寬、介面、網站、檔案稽核與情資命中等真實情境。</p><ol start="45"><li><a href="../day45/">事件分級與 Triage</a></li><li><a href="../day46/">VPN 登入異常</a></li><li><a href="../day47/">頻寬異常與 Top Talker</a></li><li><a href="../day48/">設備介面不穩</a></li><li><a href="../day49/">網站慢與 SLA</a></li><li><a href="../day50/">Windows／NAS 檔案稽核</a></li><li><a href="../day51/">AD、使用者與 IP 關聯</a></li><li><a href="../day52/">情資命中與誤判</a></li><li><a href="../day53/">調查報告與交接</a></li><li><a href="../day54/">跨資料事件 Capstone</a></li></ol></div></details>
+        <details id="series-6"><summary><span>系列六 · 55～64</span><strong>SE、POC 與客戶導入</strong><em>專案實戰</em></summary><div class="series-body"><p>把需求轉成架構、Sizing、POC、驗收、Runbook 與客戶交接。</p><ol start="55"><li><a href="../day55/">需求訪談與問題定義</a></li><li><a href="../day56/">產品、元件與資料流選擇</a></li><li><a href="../day57/">License 與 Sizing 基礎</a></li><li><a href="../day58/">拓撲、HA 與故障域</a></li><li><a href="../day59/">POC 計畫與成功條件</a></li><li><a href="../day60/">初始設定與資料接入</a></li><li><a href="../day61/">效能、容量與保存策略</a></li><li><a href="../day62/">驗收、UAT 與缺陷管理</a></li><li><a href="../day63/">Runbook、交接與教育訓練</a></li><li><a href="../day64/">客戶導入 Capstone</a></li></ol></div></details>
+        <details id="series-7"><summary><span>系列七 · 65～72</span><strong>NPSC 證照準備</strong><em>公開範圍</em></summary><div class="series-body"><p>依官方公開能力範圍更新，不宣稱或重製真實考題。</p><ol start="65"><li><a href="../day65/">N-Partner 產品線與定位</a></li><li><a href="../day66/">架構、元件與核心技術</a></li><li><a href="../day67/">Syslog、Flow、SNMP、PM 高頻觀念</a></li><li><a href="../day68/">常用操作、Dashboard 與稽核</a></li><li><a href="../day69/">License 計算專題</a></li><li><a href="../day70/">採購、保固與 MA</a></li><li><a href="../day71/">NPSC 模擬考一</a></li><li><a href="../day72/">NPSC 模擬考二與補強</a></li></ol></div></details>
+        <details id="series-8"><summary><span>系列八 · 73～80</span><strong>NPEC／專家實機準備</strong><em>能力模擬</em></summary><div class="series-body"><p>不臆測未公開考題；練習需求、架構、實機、排錯與限時交付。</p><ol start="73"><li><a href="../day73/">NPEC 能力地圖與限時策略</a></li><li><a href="../day74/">需求轉架構與 License</a></li><li><a href="../day75/">設備納管、名稱解析與查詢</a></li><li><a href="../day76/">正規化與異常樣本修正</a></li><li><a href="../day77/">TopN、監控、通知與 Dashboard</a></li><li><a href="../day78/">故障注入與系統化排錯</a></li><li><a href="../day79/">三小時整合模擬一</a></li><li><a href="../day80/">三小時整合模擬二</a></li></ol></div></details>
+        <details id="series-9"><summary><span>系列九 · 81～88</span><strong>Backend、維護與升級</strong><em>G3</em></summary><div class="series-body"><p>理解健康、備份、容量、版本、升級與回復；正式環境逐項 Gate。</p><ol start="81"><li><a href="../day81/">Backend 導覽與系統資訊</a></li><li><a href="../day82/">備份範圍與還原點</a></li><li><a href="../day83/">資料庫、儲存與保存容量</a></li><li><a href="../day84/">服務、Log 與健康檢查</a></li><li><a href="../day85/">版本矩陣、Kernel 與相容性</a></li><li><a href="../day86/">Checksum、變更計畫與 Gate</a></li><li><a href="../day87/">LAB 升級計畫與驗證設計</a></li><li><a href="../day88/">回復與災難演練</a></li></ol></div></details>
       </div>
     </section>
 
-    <section class="section wrap" aria-labelledby="paths-title">
-      <div class="section-heading"><div><p class="eyebrow">CHOOSE YOUR PATH</p><h2 id="paths-title">不用全部修完，選適合的路線</h2></div><p>每一條路都先完成基礎，再依工作與考照目標選系列。</p></div>
-      <div class="path-grid">
-        <article><h3>日常維運</h3><p>基礎 → 實機 → 監控 → 事件調查</p></article>
-        <article><h3>SE／導入</h3><p>基礎 → 實機 → 正規化 → POC → Backend</p></article>
-        <article><h3>NPSC</h3><p>基礎 → NPSC；實機較弱時補系列二</p></article>
-        <article><h3>NPEC</h3><p>基礎 → 實機 → 正規化 → 監控 → POC → NPEC</p></article>
-      </div>
-    </section>
 
     <section class="section wrap next-build" aria-labelledby="next-title">
       <p class="eyebrow">ALL SERIES READY</p><h2 id="next-title">9 系列 88 課已完整發布</h2>
@@ -72,6 +85,20 @@
       <a class="button primary" href="../day01/">開始第一課</a>
     </section>
   </main>
-  <footer><div class="wrap"><span>N-Cloud Learning · 系列化學習地圖</span><a href="../">回基礎課程</a></div></footer>
-</body>
+
+  <script data-series-deeplink>
+      function openSeriesFromHash() {
+        if (!window.location.hash) return;
+        const target = document.querySelector(window.location.hash);
+        if (target && target.matches('.series-list details')) {
+          document.querySelectorAll('.series-list details').forEach((series) => {
+            series.open = series === target;
+          });
+        }
+      }
+      openSeriesFromHash();
+      window.addEventListener('hashchange', openSeriesFromHash);
+    </script>
+    <footer><div class="wrap"><span>N-Cloud Learning · 系列化學習地圖</span><a href="../">回學習入口</a></div></footer>
+    </body>
 </html>

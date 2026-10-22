@@ -86,9 +86,9 @@ def number_zh(number: int) -> str:
 for lesson in range(7, 13):
     verify_lesson(lesson)
 
-home = (ROOT / "index.html").read_text(encoding="utf-8")
+curriculum = (ROOT / "curriculum" / "index.html").read_text(encoding="utf-8")
 for lesson in range(7, 13):
-    assert f'href="day{lesson:02d}/"' in home, f"home missing day{lesson:02d} link"
+    assert f'href="../day{lesson:02d}/"' in curriculum, f"curriculum missing day{lesson:02d} link"
 
 day06 = (ROOT / "day06" / "index.html").read_text(encoding="utf-8")
 assert 'href="../day07/"' in day06, "day06 must continue to day07"

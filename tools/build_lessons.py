@@ -299,7 +299,7 @@ def lesson_html(item: Lesson, all_lessons: list[Lesson], cases: dict[int, Case] 
 <section id="sources" class="lesson-section"><p class="section-index">11</p><h2>來源、版本與複核狀態</h2><ul class="source-list">{sources}</ul><p class="data-note"><b>來源 Gate：</b>標示 CONTROLLED_SOURCE_REQUIRED 的產品能力、路徑、授權或政策，在取得當期受控來源前一律是 UNKNOWN，不作為正式操作或報價依據。</p></section>
 <section id="debrief" class="lesson-section"><p class="section-index">12</p><h2>教師版與錯項解析</h2><div class="key-point"><b>案例答案</b><p>{case_correct}</p></div><div class="compare-grid"><article><h3>錯項一</h3><p>{case_wrong[0]}</p></article><article><h3>錯項二</h3><p>{case_wrong[1]}</p></article></div><details class="reference-answer"><summary>完成獨立任務後再展開參考成果</summary><ul>{reference_answer}</ul></details><div class="key-point"><b>安全界線</b><p>{safety}</p></div></section>
 <section id="complete" class="lesson-section"><p class="section-index">13</p><h2>完成第{zh}課學習紀錄</h2><p class="lead">兩題答對、產物工作紙 {len(task["artifact_fields"])} 欄完成，並確認三項能力；本頁完成不等於實機認證通過。</p><label class="check-row"><input type="checkbox" data-progress="purpose"><span>我能說明本課目的、位置與安全 Gate</span></label><label class="check-row"><input type="checkbox" data-progress="evidence"><span>我能依 100 分表驗收「{deliverable}」</span></label><label class="check-row"><input type="checkbox" data-progress="boundary"><span>我知道本課證據不能證明什麼，以及何時停止</span></label><div class="progress-row"><span id="progress-text">0 / 3</span><div class="progress-track" role="progressbar" aria-label="本課自評進度" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i id="progress-bar"></i></div></div><button class="button primary" id="finish-button" type="button">完成第{zh}課</button><p id="completion-message" class="completion-message" role="status"></p><div class="next-lesson-note"><span>{next_kicker}</span><strong>{escape(next_title)}</strong><p>{escape(next_copy)}</p><a class="text-link" href="{next_href}">{next_label} →</a></div></section>
-</article></div></main><footer><div class="wrap"><a href="{prev_href}">← 第{zh_number(n-1)}課</a><a href="../">回課程首頁</a><a href="{next_href}">{next_label} →</a></div></footer></body></html>
+</article></div></main><footer><div class="wrap"><a href="{prev_href}">← 第{zh_number(n-1)}課</a><a href="../curriculum/">回完整課程地圖</a><a href="{next_href}">{next_label} →</a></div></footer></body></html>
 '''
 
 
@@ -341,11 +341,11 @@ def update_curriculum_links(lessons: list[Lesson]) -> None:
         "系列九 · 81～88": [(item.number, item.title) for item in lessons if 81 <= item.number <= 88],
     }
     for label, items in groups.items():
-        links = "<ol>" + "".join(
+        links = f'<ol start="{items[0][0]}">' + "".join(
             f'<li><a href="../day{number:02d}/">{escape(title)}</a></li>'
             for number, title in items
         ) + "</ol>"
-        pattern = rf'(<details(?: open)?><summary><span>{re.escape(label)}</span>.*?<div class="series-body"><p>.*?</p>)<ol>.*?</ol>(</div></details>)'
+        pattern = rf'(<details[^>]*><summary><span>{re.escape(label)}</span>.*?<div class="series-body"><p>.*?</p>)<ol(?: start="\d+")?>.*?</ol>(</div></details>)'
         html, count = re.subn(pattern, rf"\1{links}\2", html, count=1, flags=re.DOTALL)
         if count != 1:
             raise ValueError(f"Could not update curriculum group: {label}")
