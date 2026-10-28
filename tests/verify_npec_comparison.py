@@ -16,8 +16,10 @@ parser.close()
 required_markers = [
     "我的答案，和同事的實機示範一樣嗎？",
     "解題邏輯多數相同；實作完成度不能混為一談。",
-    "最重要的修正：第 6 題",
+    "重新核對後的兩項重要修正",
     "Syslog＋情資比對＋Hit Count",
+    "稽核 → Windows 檔案分享 → 檔案讀取",
+    "兩套條件不要同時疊加",
     "這不是官方答案表",
     "填過表單",
     "未儲存的表單示範",
@@ -51,6 +53,14 @@ assert html.count('class="route"') == 11
 assert html.count('class="steps"') == 11
 assert html.count("<h4>驗收</h4>") == 11
 assert html.count("<h4>常見錯誤</h4>") == 11
+
+# Q7 must prefer the current normalized audit selector. The older Synology
+# read/File example remains only as a conditional fallback, never a second AND filter.
+q7 = question_blocks[7]
+assert "這個選項就是你這版的 Read" in q7
+assert "不要在「動作」勾允許／不允許" in q7
+assert "不要兩套同時使用" in q7
+assert "只有欄位確實為" in q7
 
 route_markers = [
     "系統管理 → IP 名稱解析 → IP 名稱解析列表",

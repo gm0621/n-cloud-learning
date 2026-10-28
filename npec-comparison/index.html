@@ -229,7 +229,7 @@
     <section class="hero wrap" aria-labelledby="page-title">
       <p class="eyebrow">NPEC HISTORICAL PRACTICE · COMPARISON REPORT</p>
       <h1 id="page-title">我的答案，和同事的實機示範一樣嗎？</h1>
-      <p class="hero-lead">第 4～14 題的核心方向<strong>大致一致，但不是完全相同</strong>。第 6 題需要修正我的原說法；其他幾題則由同事的實機畫面補足更精確的欄位。</p>
+      <p class="hero-lead">第 4～14 題的核心方向<strong>大致一致，但不是完全相同</strong>。第 6 題修正資料來源與統計方式；第 7 題依你的實機畫面修正 Read 的選擇位置；其餘題目則保留版本差異與待驗證項目。</p>
       <div class="hero-meta" aria-label="文件範圍">
         <span class="pill">比較範圍：第 4～14 題</span>
         <span class="pill">依題目條件推導，非官方答案表</span>
@@ -256,7 +256,7 @@
 
       <div class="content">
         <section class="section" id="overview">
-          <div class="section-heading"><p class="eyebrow">AT A GLANCE</p><h2>快速總覽</h2><p>「一致」代表解題條件相同；「需補強」代表方向相同，但同事實機頁提供了更精確欄位；「需修正」代表我原本的資料來源描述不夠準確。</p></div>
+          <div class="section-heading"><p class="eyebrow">AT A GLANCE</p><h2>快速總覽</h2><p>「一致」代表目前推導方向相同；「需補強」代表方向相同，但仍有欄位或完成證據不足；「需修正」代表先前答案有資料來源、統計方式或實機選項需要更正。</p></div>
           <div class="legend" aria-label="狀態說明">
             <span class="status same">一致</span><span class="status refine">需補強</span><span class="status correct">需修正</span><span class="status unknown">無法比較</span>
           </div>
@@ -267,7 +267,7 @@
                 <tr><td><a href="#q4">第4題</a></td><td><span class="status refine">需補強</span></td><td>四組 CIDR 相同；要明確勾選每一組的 Flow 分析。</td></tr>
                 <tr><td><a href="#q5">第5題</a></td><td><span class="status same">一致</span></td><td>Flow、Home → !Home、Byte 與四個排名欄位相同。</td></tr>
                 <tr><td><a href="#q6">第6題</a></td><td><span class="status correct">需修正</span></td><td>應精確寫成 Syslog＋情資比對＋Hit Count。</td></tr>
-                <tr><td><a href="#q7">第7題</a></td><td><span class="status refine">需補強</span></td><td>邏輯相同；同事用其他 NAS 示範，未完成題目指定設備。</td></tr>
+                <tr><td><a href="#q7">第7題</a></td><td><span class="status correct">需修正</span></td><td>目前實機優先選「稽核 → Windows 檔案分享 → 檔案讀取」；read＋File 只適用實際欄位相符的 Synology 範例。</td></tr>
                 <tr><td><a href="#q8">第8題</a></td><td><span class="status refine">需補強</span></td><td>方向相同；只匯 Syslog 不代表涵蓋所有 Flow。</td></tr>
                 <tr><td><a href="#q9">第9題</a></td><td><span class="status same">一致</span></td><td>URL、80 分、10 秒與 OR 告警條件相同。</td></tr>
                 <tr><td><a href="#q10">第10題</a></td><td><span class="status refine">需補強</span></td><td>條件相同；實機頁補出 ssl-web、vpn 與來源使用者。</td></tr>
@@ -281,8 +281,9 @@
         </section>
 
         <section class="section" id="corrections">
-          <div class="section-heading"><p class="eyebrow">KEY CORRECTION</p><h2>最重要的修正：第 6 題</h2></div>
+          <div class="section-heading"><p class="eyebrow">KEY CORRECTION</p><h2>重新核對後的兩項重要修正</h2></div>
           <div class="notice"><h3>不要再寫成泛稱的 Flow／連線資料</h3><p>依同事實機版本，較精確的做法是：<strong>Syslog → 來源 !Home → 目的 Home → 啟用情資比對 → 以 Hit Count 排名 → 儲存為日報表</strong>。排名欄位為來源 IP、目的 IP、目的 IP 名稱解析。</p></div>
+          <div class="notice" style="margin-top:12px"><h3>第 7 題：你這版的 Read 是「檔案讀取」</h3><p>優先使用：<strong>稽核 → Windows 檔案分享 → 檔案讀取</strong>。「動作 → 允許／不允許」不是 Read。同事 Synology 範例的 <code>事件關鍵字 read＋狀態 File</code> 只在實際日誌欄位相符時使用，兩套條件不要同時疊加。</p></div>
         </section>
 
         <section class="section" id="questions">
@@ -335,16 +336,16 @@
             </details>
 
             <details class="question" id="q7">
-              <summary><span class="qno">Q07</span><span class="qtitle"><strong>檔案伺服器讀取資料排名</strong><small>來源使用者 · Byte · 日報表</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <summary><span class="qno">Q07</span><span class="qtitle"><strong>檔案伺服器讀取資料排名</strong><small>檔案讀取 · 來源使用者 · Byte · 日報表</small></span><span class="status correct">需修正</span><span class="chevron" aria-hidden="true"></span></summary>
               <div class="question-body">
-                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、讀取事件、來源使用者、Byte、日報表。</p></div><div class="compare-box"><h3>示範限制</h3><p>同事畫面用其他 NAS；考試仍要選題目指定的 <code>192.168.11.100</code>。</p></div></div>
-                <div class="answer"><h3>完成條件</h3><p>日誌中的 read／File、來源使用者與 Bytes 都必須真的有值；Hit Count 不能代替讀取檔案大小。</p></div>
+                <div class="compare-grid"><div class="compare-box"><h3>目前實機畫面</h3><p>查詢條件已有「稽核 → Windows 檔案分享 → 檔案讀取」，這就是中文版 Read，應優先使用。</p></div><div class="compare-box"><h3>同事 Synology 範例</h3><p>使用事件關鍵字 <code>read</code>＋狀態 <code>File</code>，但設備不是題目指定的 <code>192.168.11.100</code>，且未查詢驗證。</p></div></div>
+                <div class="answer"><h3>修正後答案</h3><p>先用標準化「檔案讀取」稽核條件；只有實際事件沒有此稽核值、但欄位確實顯示 <code>read</code>／<code>File</code> 時，才改用關鍵字方案。兩套條件不要同時疊加。排名仍是來源使用者＋Byte＋日報表。</p></div>
                 <div class="manual">
                   <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → Top N → Top N 報表</p>
-                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>設備</td><td>題目指定的 Synology File Server <code>192.168.11.100</code></td></tr><tr><td>事件關鍵字</td><td><code>read</code></td></tr><tr><td>狀態</td><td><code>File</code>，完全匹配</td></tr><tr><td>排序依據</td><td>來源使用者</td></tr><tr><td>排序／顯示數值</td><td>Byte</td></tr><tr><td>報表型態</td><td>只勾日報表</td></tr></tbody></table></div>
-                  <ol class="steps"><li>先到事件查詢抽看題目 NAS 的實際稽核日誌，確認讀取事件解析為 <code>read</code>、狀態為 <code>File</code>，並有來源使用者及 Bytes。</li><li>進入 Top N 報表，製作依據選 Syslog。</li><li>查詢條件選「設備」，展開 Global，勾選 <code>192.168.11.100</code>；不要用來源 IP 代替設備。</li><li>事件關鍵字填 <code>read</code>；狀態填 <code>File</code> 並選完全匹配。</li><li>排序依據只保留「來源使用者」，排序數值與數值顯示都選 Byte。</li><li>執行短時間查詢，確認帳號與 Bytes 不是空值或 0。</li><li>儲存名稱填「公司檔案伺服器讀取資料排名」，報表型態只勾日報表。</li><li>若要調閱離職前三個月，另切換「起迄時間」，以實際離職日回推三個月，並加入實際離職帳號；這和每日報表是兩個操作。</li></ol>
-                  <h4>驗收</h4><ul class="checklist"><li>排名以帳號彙總，數值單位為 Byte。</li><li>抽一筆結果能看到設備、read／File、來源使用者及 Bytes。</li><li>日報表可重新開啟，名稱與排程正確。</li></ul>
-                  <h4>常見錯誤</h4><ul class="warnings"><li>不同品牌／Windows 日誌未必使用 read／File，先看真實日誌再套條件。</li><li>把檔案路徑加入分組會將同一帳號拆成多筆。</li><li>事件數不等於檔案大小；Bytes 缺值時不能改用 Hit Count 冒充。</li></ul>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>設備</td><td>題目指定的 Synology File Server <code>192.168.11.100</code></td></tr><tr><td>目前實機的讀取條件</td><td>稽核 → Windows 檔案分享 → 檔案讀取</td></tr><tr><td>替代條件</td><td>事件關鍵字 <code>read</code>＋狀態 <code>File</code> 完全匹配；僅於真實事件欄位相符時使用</td></tr><tr><td>排序依據</td><td>來源使用者</td></tr><tr><td>排序／顯示數值</td><td>Byte</td></tr><tr><td>報表型態</td><td>只勾日報表</td></tr></tbody></table></div>
+                  <ol class="steps"><li>進入 Top N 報表，製作依據選 Syslog。</li><li>查詢條件選「設備」，展開 Global，勾選 <code>192.168.11.100</code>；不要用來源 IP 代替設備。</li><li>查詢條件選「稽核」，展開「Windows 檔案分享」，勾選「檔案讀取」。這個選項就是你這版的 Read。</li><li>不要在「動作」勾允許／不允許；那是允許或拒絕結果，不是檔案讀取。</li><li>先只套用「檔案讀取」執行短時間查詢，確認命中的事件有來源使用者與 Bytes。</li><li>如果完全沒有結果，再抽看題目 NAS 的原始事件；只有欄位確實為 <code>read</code>／<code>File</code> 時，才移除稽核條件，改用事件關鍵字＋狀態完全匹配。不要兩套同時使用。</li><li>排序依據只保留「來源使用者」，排序數值與數值顯示都選 Byte。</li><li>確認帳號與 Bytes 不是空值或 0，再儲存名稱「公司檔案伺服器讀取資料排名」，報表型態只勾日報表。</li><li>若要調閱離職前三個月，另切換「起迄時間」，依實際離職日回推三個月並指定離職帳號；這和每日報表是兩個操作。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>抽一筆結果能確認其稽核行為是「檔案讀取」，不是單純允許連線。</li><li>排名以來源使用者彙總，數值單位為 Byte 且不是 0。</li><li>日報表可重新開啟，名稱、條件與排程正確。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>把「動作 → 允許」當作 Read，會混入其他允許事件。</li><li>同時勾「檔案讀取」又填 <code>read</code>／<code>File</code>，可能因 AND 條件過窄而查不到資料。</li><li>把檔案路徑加入分組會將同一帳號拆成多筆。</li><li>事件數不等於檔案大小；Bytes 缺值時不能改用 Hit Count 冒充。</li></ul>
                 </div>
               </div>
             </details>
