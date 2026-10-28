@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NPEC 歷史實作題第 4～14 題：題目推導答案與同事實機表單示範的逐題比較、修正與驗收判斷。">
+  <meta name="description" content="NPEC 歷史實作題第 4～14 題：題目推導答案、同事實機示範，以及可逐步比對的設定欄位、儲存、驗收與排錯手冊。">
   <meta name="theme-color" content="#f7f6f3">
   <title>NPEC 第 4～14 題｜答案與實機示範比對</title>
   <style>
@@ -143,6 +143,22 @@
     .answer { margin-top: 16px; padding: 18px; border: 1px solid rgba(38,37,34,.11); border-radius: 10px; }
     .answer h3 { margin: 0 0 8px; font-size: 16px; }
     .answer p { margin: 0; color: var(--muted); }
+    .manual { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
+    .manual > h3 { margin: 0 0 12px; font-size: 20px; }
+    .manual h4 { margin: 22px 0 8px; font-size: 15px; letter-spacing: .02em; }
+    .route { margin: 0 0 14px; padding: 13px 15px; border-left: 4px solid var(--blue); border-radius: 7px; background: var(--blue-soft); color: #34586f; }
+    .route strong { color: var(--ink); }
+    .field-table { margin: 10px 0 18px; }
+    .field-table table { min-width: 620px; }
+    .field-table td:first-child { width: 190px; font-weight: 750; }
+    .steps { margin: 0; padding: 0; list-style: none; counter-reset: manual-step; display: grid; gap: 10px; }
+    .steps > li { position: relative; min-height: 46px; padding: 11px 14px 11px 50px; border-radius: 9px; background: var(--canvas); counter-increment: manual-step; }
+    .steps > li::before { content: counter(manual-step); position: absolute; left: 13px; top: 11px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--ink); font-size: 12px; font-weight: 800; }
+    .checklist, .warnings { margin: 8px 0 0; padding-left: 22px; }
+    .checklist li, .warnings li { margin: 5px 0; }
+    .checklist li::marker { color: var(--green); }
+    .warnings li::marker { color: var(--red); }
+    .evidence-note { margin-top: 14px; padding: 13px 15px; border-radius: 8px; color: var(--amber); background: var(--amber-soft); font-size: 14px; }
     code { padding: 2px 6px; border-radius: 5px; color: #374151; background: #eeece8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
 
     .completion-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -202,7 +218,7 @@
     <div class="topbar-inner">
       <a class="brand" href="../" aria-label="回 N-Cloud Learning 首頁"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a>
       <div class="top-actions">
-        <a href="#questions">逐題比較</a>
+        <a href="#questions">逐題設定手冊</a>
         <button type="button" id="expand-all">全部展開</button>
         <button type="button" onclick="window.print()">列印／存 PDF</button>
       </div>
@@ -231,7 +247,7 @@
         <nav>
           <a href="#overview">快速總覽</a>
           <a href="#corrections">重要修正</a>
-          <a href="#questions">逐題比較</a>
+          <a href="#questions">逐題設定手冊</a>
           <a href="#completion">完成度判斷</a>
           <a href="#limits">比較界線</a>
           <a class="back" href="../">回學習首頁</a>
@@ -270,61 +286,173 @@
         </section>
 
         <section class="section" id="questions">
-          <div class="section-heading"><p class="eyebrow">QUESTION BY QUESTION</p><h2>第 4～14 題逐題比較</h2><p>展開每題可看到「我的原答案」「同事實機頁」以及考試時建議採用的最終寫法。</p></div>
+          <div class="section-heading"><p class="eyebrow">QUESTION BY QUESTION</p><h2>第 4～14 題逐題設定手冊</h2><p>展開每題後，先比對答案，再依「位置 → 欄位對照 → 逐步設定 → 驗收 → 常見錯誤」完成操作。版本不同時，以實機實際欄位為準。</p></div>
           <div class="question-list">
             <details class="question" id="q4" open>
               <summary><span class="qno">Q04</span><span class="qtitle"><strong>公司單位與 IP 對應</strong><small>Home／Domain 與三個單位網段</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>我的原答案</h3><p>建立 <code>192.168.0.0/16</code>、主機、OA、訪客網段並啟用流量分析。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>四組 CIDR 相同，並明確在 Home 與三個子網段上都勾選「啟用 Flow 分析」。</p></div></div><div class="answer"><h3>考試建議答案</h3><p>Home／Domain <code>192.168.0.0/16</code>、主機 <code>192.168.1.0/24</code>、OA <code>192.168.2.0/23</code>、訪客 <code>192.168.4.0/23</code>；每一筆都核對 Flow 欄為啟用。「Flow 分析」不是「IP 名稱解析分享」。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>我的原答案</h3><p>建立四組網段並啟用流量分析。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>四組 CIDR 相同，並明確在 Home 與三個子網段都勾選「啟用 Flow 分析」。</p></div></div>
+                <div class="answer"><h3>考試建議答案</h3><p>Domain 對應目前領域的 Home；三個子網段另外新增。每筆都要把 CIDR 加入下方清單並儲存，不能只留在輸入框。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3>
+                  <p class="route"><strong>位置：</strong>系統管理 → IP 名稱解析 → IP 名稱解析列表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>項目</th><th>名稱／網段</th><th>Flow</th></tr></thead><tbody><tr><td>公司整體</td><td>目前領域的 Home／<code>192.168.0.0/16</code></td><td>啟用</td></tr><tr><td>主機網段</td><td><code>192.168.1.0/24</code></td><td>啟用</td></tr><tr><td>OA 網段</td><td><code>192.168.2.0/23</code></td><td>啟用</td></tr><tr><td>訪客網段</td><td><code>192.168.4.0/23</code></td><td>啟用</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先搜尋目前領域名稱，找到帶 Home 圖示的公司整體項目；不要另外新增一筆字面名稱為「Domain」的普通網段。</li><li>勾選該列的編輯欄並按鉛筆，確認「啟用 Flow 分析」已勾選。</li><li>在「單一 IP 或網段」輸入 <code>192.168.0.0/16</code>，按加號；確認它已出現在「網段定義」清單。</li><li>回列表按上方加號，新增「主機網段」，勾選 Flow 分析，加入 <code>192.168.1.0/24</code>。</li><li>用相同方式新增「OA網段」，加入 <code>192.168.2.0/23</code>；不可誤填成 <code>/24</code>。</li><li>新增「訪客網段」，加入 <code>192.168.4.0/23</code>。</li><li>每一筆按右下角「確定」儲存，再回列表逐筆重開核對。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>列表可找到 Home、主機、OA、訪客四組定義。</li><li>四組 CIDR 完全符合題目，Flow 欄皆為啟用。</li><li>後續查詢可用名稱解析顯示「主機網段／OA網段／訪客網段」。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>「啟用 Flow 分析」不是「啟用 IP 名稱解析分享」。</li><li>公司 <code>/16</code> 與三個子網段重疊；若顯示錯誤單位，再檢查呈現優先權，題目未指定的數字不要亂填。</li><li>正式環境若 Home 已有其他網段，先核對再修改，避免誤刪既有範圍。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q5">
               <summary><span class="qno">Q05</span><span class="qtitle"><strong>公司內對外流量即時監控</strong><small>Flow · Home → !Home</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Flow、來源 Home、目的 !Home、Byte／速率、時間單位 1 分鐘內。</p></div><div class="compare-box"><h3>排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析；排序數值 Byte。</p></div></div><div class="answer"><h3>容易填錯的地方</h3><p>「公司內對外流量即時監控」要填在整份<strong>分時監控報表名稱</strong>，不能只拿 TopN 子項名稱代替。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Flow、來源 Home、目的 !Home、Byte／速率、時間單位 1 分鐘內。</p></div><div class="compare-box"><h3>排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析；排序數值 Byte。</p></div></div>
+                <div class="answer"><h3>容易填錯</h3><p>「公司內對外流量即時監控」是整份分時監控報表名稱，不是 Top N 子項名稱。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → 分時監控報表 → 訂製分時監控報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Flow</td></tr><tr><td>來源 IP</td><td>Home（新增／包含）</td></tr><tr><td>目的 IP</td><td>Home（忽視／排除），形成 !Home</td></tr><tr><td>統計</td><td>Byte、曲線圖、速率</td></tr><tr><td>Top N 排序</td><td>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析</td></tr><tr><td>排序數值</td><td>Byte</td></tr><tr><td>時間單位</td><td>1 分鐘內</td></tr></tbody></table></div>
+                  <ol class="steps"><li>在「報表製作依據」選 Flow。</li><li>開啟「IP 過濾－來源 IP」，在 IP 名稱解析選目前領域的 Home，按加號「新增」，再按確定。</li><li>開啟「IP 過濾－目的 IP」，同樣選 Home，但按驚嘆號「忽視」；清單應顯示 <code>[!]Home</code>。</li><li>回主畫面確認方向為 <strong>Home → !Home</strong>，不要再手動疊加 <code>192.168.0.0/16</code>。</li><li>在分時監控報表設定按加號，選 Byte、曲線圖、計算方式「速率」。</li><li>打開「分時監控 Top N」，新增子項「內對外流量排名」，移除預設欄位，再依序加入四個指定排名欄位，排序數值選 Byte。</li><li>按右上角磁碟圖示「儲存查詢條件」，正式名稱填「公司內對外流量即時監控」，時間單位選「1 分鐘內」。</li><li>考試正式設定時按「確定」儲存並啟用；若只練習，先選停用，避免產生告警。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>重新開啟已儲存報表，方向仍是 Home → !Home。</li><li>即時圖表有 Bytes 速率曲線，Top N 有四欄與數值。</li><li>用一台內部主機產生對外流量後，排名能出現來源與目的。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li><code>[!]</code> 才表示排除；目的若選「新增」就變成內對內。</li><li>Top N 子項名稱不能代替整份報表名稱。</li><li>Top N 切成 ON 但未儲存，仍不算完成。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q6">
               <summary><span class="qno">Q06</span><span class="qtitle"><strong>情資 IP 連線排名</strong><small>Syslog · !Home → Home · 日報表</small></span><span class="status correct">需修正</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>我的原答案問題</h3><p>寫成「Flow／連線事件」太寬，沒有對到這版實機表單的精確資料來源與統計方式。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>Syslog、!Home → Home、啟用情資比對，以 Hit Count 排名，僅勾日報表。</p></div></div><div class="answer"><h3>修正後答案</h3><p>排序欄位使用「來源 IP、目的 IP、目的 IP 名稱解析」。最後一欄用來呈現目的 IP 所屬單位；正式驗收還要確認實際命中情資的是來源 IP。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>我的原答案問題</h3><p>寫成 Flow／連線事件太寬。</p></div><div class="compare-box"><h3>修正後</h3><p>Syslog、!Home → Home、啟用情資比對、Hit Count、日報表。</p></div></div>
+                <div class="answer"><h3>最終答案</h3><p>排名欄位為來源 IP、目的 IP、目的 IP 名稱解析；最後一欄用來呈現目的 IP 所屬單位。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → Top N → Top N 報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>來源 IP</td><td>!Home</td></tr><tr><td>目的 IP</td><td>Home</td></tr><tr><td>情資比對</td><td>啟用比對</td></tr><tr><td>排序依據</td><td>來源 IP、目的 IP、目的 IP 名稱解析</td></tr><tr><td>排序數值</td><td>Hit Count</td></tr><tr><td>報表型態</td><td>只勾日報表</td></tr></tbody></table></div>
+                  <ol class="steps"><li>製作依據選 Syslog；資料來源必須是會記錄連線行為的設備日誌。</li><li>查詢條件選「情資比對」，設為「啟用比對」；題目未指定情資類型或評分，不要自行加門檻。</li><li>「IP 過濾－來源 IP」選 Home 後按「忽視」，形成 <code>!Home</code>。</li><li>「IP 過濾－目的 IP」選 Home 後按「新增」，形成外對內。</li><li>移除預設排序欄位，加入來源 IP、目的 IP、目的 IP 名稱解析；排序數值選 Hit Count。</li><li>先查詢確認來源 IP 有情資標記，目的 IP 名稱解析能顯示第 4 題建立的單位。</li><li>按右上角「儲存查詢條件」，名稱填「情資IP連線排名」，報表型態只勾日報表；需要排程時再正式儲存。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>結果方向是外部來源到內部目的。</li><li>來源 IP 確實命中情資，不是只因啟用比對就假設命中。</li><li>日報表產出後包含三個指定欄位及 Hit Count。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>不要選 Flow，也不要用 Byte 排名。</li><li>「24 小時內」只是查詢視窗，不等於已設定日報表。</li><li>目的 IP 名稱解析依賴第 4 題；若空白，先修正名稱解析。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q7">
               <summary><span class="qno">Q07</span><span class="qtitle"><strong>檔案伺服器讀取資料排名</strong><small>來源使用者 · Byte · 日報表</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、讀取事件、來源使用者分組、Byte 排名、日報表；不能用 Hit Count 代替讀取檔案大小。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>實機找不到題目指定的 <code>192.168.11.100</code>，因此使用另一台既有 Synology NAS 示範。</p></div></div><div class="answer"><h3>完成條件</h3><p>考試要使用題目指定設備，並確認實際日誌中的 read／File、來源使用者與 Bytes 都有值。用其他 NAS 截圖只能證明操作方法，不能算正式完成。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、讀取事件、來源使用者、Byte、日報表。</p></div><div class="compare-box"><h3>示範限制</h3><p>同事畫面用其他 NAS；考試仍要選題目指定的 <code>192.168.11.100</code>。</p></div></div>
+                <div class="answer"><h3>完成條件</h3><p>日誌中的 read／File、來源使用者與 Bytes 都必須真的有值；Hit Count 不能代替讀取檔案大小。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → Top N → Top N 報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>設備</td><td>題目指定的 Synology File Server <code>192.168.11.100</code></td></tr><tr><td>事件關鍵字</td><td><code>read</code></td></tr><tr><td>狀態</td><td><code>File</code>，完全匹配</td></tr><tr><td>排序依據</td><td>來源使用者</td></tr><tr><td>排序／顯示數值</td><td>Byte</td></tr><tr><td>報表型態</td><td>只勾日報表</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先到事件查詢抽看題目 NAS 的實際稽核日誌，確認讀取事件解析為 <code>read</code>、狀態為 <code>File</code>，並有來源使用者及 Bytes。</li><li>進入 Top N 報表，製作依據選 Syslog。</li><li>查詢條件選「設備」，展開 Global，勾選 <code>192.168.11.100</code>；不要用來源 IP 代替設備。</li><li>事件關鍵字填 <code>read</code>；狀態填 <code>File</code> 並選完全匹配。</li><li>排序依據只保留「來源使用者」，排序數值與數值顯示都選 Byte。</li><li>執行短時間查詢，確認帳號與 Bytes 不是空值或 0。</li><li>儲存名稱填「公司檔案伺服器讀取資料排名」，報表型態只勾日報表。</li><li>若要調閱離職前三個月，另切換「起迄時間」，以實際離職日回推三個月，並加入實際離職帳號；這和每日報表是兩個操作。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>排名以帳號彙總，數值單位為 Byte。</li><li>抽一筆結果能看到設備、read／File、來源使用者及 Bytes。</li><li>日報表可重新開啟，名稱與排程正確。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>不同品牌／Windows 日誌未必使用 read／File，先看真實日誌再套條件。</li><li>把檔案路徑加入分組會將同一帳號拆成多筆。</li><li>事件數不等於檔案大小；Bytes 缺值時不能改用 Hit Count 冒充。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q8">
               <summary><span class="qno">Q08</span><span class="qtitle"><strong>外部 IP 對主機網段資料下載</strong><small>!Home → 192.168.1.0/24 · 完整日曆日</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>來源 !Home、目的 <code>192.168.1.0/24</code>，指定攻擊當日 00:00:00～23:59:59，儲存指定名稱。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>示範 Syslog，開過事件下載表單但沒有下載；暫存條件之後已刪除。</p></div></div><div class="answer"><h3>資料範圍注意</h3><p>Syslog 與 Flow 是不同資料來源。若稽查要求涵蓋所有 Flow，需另建相同方向與日期的 Flow 條件；不能把單一 Syslog 匯出稱為所有連線資料。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>來源 !Home、目的 <code>192.168.1.0/24</code>，使用攻擊當日完整日曆日。</p></div><div class="compare-box"><h3>示範狀態</h3><p>同事曾開啟事件下載表單但未下載，暫存條件已刪除。</p></div></div>
+                <div class="answer"><h3>資料範圍</h3><p>Syslog 與 Flow 是不同來源；如果「所有連線」包含 Flow，需再建立一組同方向、同日期的 Flow 條件。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>事件 → 事件查詢；儲存後到 事件 → 已儲存查詢條件</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>資料來源</td><td>Syslog（記錄連線的設備日誌）</td></tr><tr><td>來源 IP</td><td>!Home</td></tr><tr><td>目的 IP</td><td><code>192.168.1.0/24</code></td></tr><tr><td>時間</td><td>實際攻擊日 00:00:00～23:59:59</td></tr><tr><td>條件名稱</td><td>外部IP對主機網段資料下載</td></tr></tbody></table></div>
+                  <ol class="steps"><li>選 Syslog，先確認所選設備日誌真的記錄連線；不要混入與連線無關的系統日誌。</li><li>「IP 過濾－來源 IP」選 Home 後按「忽視」，形成 <code>!Home</code>。</li><li>「IP 過濾－目的 IP」在單一 IP 或網段輸入 <code>192.168.1.0/24</code> 並加入；本題不是整個 Home。</li><li>時間切換成起迄時間，填實際攻擊日的 <code>00:00:00</code> 到 <code>23:59:59</code>；不要用「24 小時內」。</li><li>不加登入、情資、Port 或排名等題目未指定的限制，避免漏掉符合方向的事件。</li><li>按「儲存查詢條件」，名稱填「外部IP對主機網段資料下載」並儲存。</li><li>到「已儲存查詢條件」找到該列，按「事件下載」，再次核對日期；欄位樣版可維持 Default，匯出方式選直接下載。</li><li>按確定建立 CSV 匯出後，檢查檔案可開啟、時間欄與來源／目的 IP 都存在。</li><li>若還要涵蓋 Flow，另以 Flow 建立相同方向及日期的匯出，不能用 Syslog 檔案冒充。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>儲存條件可重新找到，名稱完全一致。</li><li>下載檔不是空檔，最早與最晚事件都落在攻擊當日。</li><li>抽樣事件皆為外部來源到 <code>192.168.1.0/24</code>。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>用 Home 當目的會多匯出 OA、訪客等非主機網段。</li><li>滾動 24 小時不等於完整日曆日。</li><li>只看到下載表單但沒有產出檔案，不算完成。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q9">
               <summary><span class="qno">Q09</span><span class="qtitle"><strong>Web Server PM 連線品質監控</strong><small>80 分 OR 10 秒逾時</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>名稱 Web Server PM monitor，URL <code>https://192.168.11.121</code>，分數門檻 80，Timeout 10 秒、連續逾時 1 次。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>未找到題目 IP 的關聯設備，監控保持關閉，也未從設備資產樹完成新增。</p></div></div><div class="answer"><h3>告警邏輯</h3><p>效能分數低於 80 <strong>或</strong> Web 請求逾時 10 秒，是 OR，不是兩者同時發生才告警。需關聯題目設備並實際啟用，才能算完成。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Web Server PM monitor、URL <code>https://192.168.11.121</code>、80 分、Timeout 10 秒。</p></div><div class="compare-box"><h3>示範限制</h3><p>同事未從設備資產樹完成關聯，也未啟用監控。</p></div></div>
+                <div class="answer"><h3>告警邏輯</h3><p>效能分數低於 80 <strong>或</strong> Web 請求逾時 10 秒即告警，兩者是 OR。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>題目指定位置：</strong>設備管理 → 設備資產樹狀圖 → 找到 <code>192.168.11.121</code> → Web 監控 → 新增</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>類型</td><td>Web</td></tr><tr><td>目標名稱</td><td>Web Server PM monitor</td></tr><tr><td>監控 URL</td><td><code>https://192.168.11.121</code></td></tr><tr><td>效能分數門檻</td><td>80</td></tr><tr><td>Timeout Alert</td><td>10 秒</td></tr><tr><td>連續逾時次數</td><td>1 次</td></tr><tr><td>關聯設備</td><td><code>192.168.11.121</code></td></tr></tbody></table></div>
+                  <ol class="steps"><li>先確認設備資產樹已有 <code>192.168.11.121</code>；沒有時回第 3 題完成納管，不能用其他設備代替。</li><li>展開該設備的 Web 監控並按新增，類型選 Web。</li><li>目標名稱填「Web Server PM monitor」；若系統自動移除空白，只要辨識一致即可。</li><li>URL 填 <code>https://192.168.11.121</code>，確認沒有多餘空格。</li><li>選擇負責發出探測的監控設備；它和被監控 URL 不是同一概念。</li><li>打開「監控樣版與門檻值設定」，效能分數填 80。</li><li>勾選 Timeout Alert，秒數填 10，連續逾時次數填 1。</li><li>指定有效的告警通報服務／收件群組，儲存後將監控切為啟用。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>設備資產樹下可看到此 Web 監控，狀態為啟用。</li><li>正常時能取得分數與回應時間，而不是持續 Unknown。</li><li>在 LAB 暫時阻擋連線或使用測試 URL，確認逾時後真的產生告警；測完恢復。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>從「效能監控列表」新增但未關聯設備，不符合題目指定入口。</li><li>80 分與 10 秒不是 AND。</li><li>未指定通報服務時，即使觸發門檻也可能只有系統事件、沒有通知。</li></ul>
+                  <p class="evidence-note">版本差異：若考場畫面只有「效能監控 → Web 監控」，先完成相同欄位，再回設備資產樹確認關聯；以資產樹中看得到為驗收標準。</p>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q10">
               <summary><span class="qno">Q10</span><span class="qtitle"><strong>SSL-VPN 登入行為監控</strong><small>18:00～隔日 08:00 · 一筆門檻</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、成功與失敗都納入、跨日 18:00～08:00、Hit Count 1、第一次即告警，並帶出登入帳號。</p></div><div class="compare-box"><h3>同事實機補充</h3><p>課程範例使用應用服務 <code>ssl-web</code>、分類 <code>vpn</code>；帳號欄使用「來源使用者」。</p></div></div><div class="answer"><h3>正式驗收</h3><p><code>ssl-web</code>／<code>vpn</code> 是範例值，仍要先核對考場 Fortigate 的成功與失敗日誌解析結果。若真實欄位不同，應以實際日誌為準。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、成功＋失敗、18:00～08:00、Hit Count 1，帶出帳號。</p></div><div class="compare-box"><h3>實機補充</h3><p>課程範例是應用服務 <code>ssl-web</code>、分類 <code>vpn</code>，帳號欄為來源使用者。</p></div></div>
+                <div class="answer"><h3>先做資料確認</h3><p><code>ssl-web</code>／<code>vpn</code> 只是此版本範例；必須先抽看考場 Fortigate 的成功與失敗日誌。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → 分時監控報表 → 訂製分時監控報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>應用服務／分類</td><td><code>ssl-web</code>／<code>vpn</code>，完全匹配（須先核對真實日誌）</td></tr><tr><td>稽核</td><td>登入成功＋登入失敗</td></tr><tr><td>每日時段</td><td>18:00～08:00，跨午夜</td></tr><tr><td>統計</td><td>Hit Count、累計值、Red 門檻 1</td></tr><tr><td>告警</td><td>1 分鐘內、連續 1 次</td></tr><tr><td>排名／詳細欄位</td><td>來源 IP、來源使用者</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先到事件查詢找一筆 SSL-VPN 成功與一筆失敗日誌，記下實際「應用服務、分類、稽核、來源使用者」值。</li><li>製作依據選 Syslog；應用服務、分類依實際值設定完全匹配。只有和範例一致時才填 <code>ssl-web</code>／<code>vpn</code>。</li><li>稽核條件同時勾「登入成功」與「登入失敗」，不要勾登出。</li><li>時間範圍填 18:00、08:00，按加號加入；確認清單保持 <code>18:00–08:00</code>，不是反向的 08:00–18:00。</li><li>新增 Hit Count 統計，計算方式選累計值，啟用門檻，Red 填 1。</li><li>開啟分時監控 Top N，加入來源 IP、來源使用者，排序數值選 Hit Count。</li><li>在詳細告警事件欄位加入「來源使用者」，確保通知能帶出帳號。</li><li>儲存名稱填「SSL-VPN登入行為監控」，時間單位選 1 分鐘內，連續高於門檻值選 1 次。</li><li>指定告警通報服務與收件群組，儲存並啟用。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>在 LAB 於下班時段各產生一次成功與失敗登入，兩者都能命中。</li><li>告警詳細資料可看到實際來源使用者帳號。</li><li>白天 08:00～18:00 的同類事件不應觸發此時段告警。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>只勾成功或只勾失敗會漏報。</li><li>來源 IP 不能取代來源使用者。</li><li>門檻 1 代表一筆達門檻，不代表通知零延遲。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q11">
               <summary><span class="qno">Q11</span><span class="qtitle"><strong>SSL-VPN 登入日誌轉發</strong><small>192.168.11.110 · UDP 514</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>承接第 10 題條件，啟用 Syslog relay，目的 IP <code>192.168.11.110</code>、Port <code>514</code>、題目要求 UDP。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>表單只有 Relay IP 與 Port，沒有協定欄，也未實際啟用或傳送日誌。</p></div></div><div class="answer"><h3>驗收方式</h3><p>不能因為 Port 是 514 就直接宣稱已確認 UDP。需查後端設定／版本文件，或在接收端用封包證據確認 UDP。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>承接第 10 題，在 Hit Count 統計組啟用 Syslog relay，送到 <code>192.168.11.110:514</code>。</p></div><div class="compare-box"><h3>待核對</h3><p>表單沒有協定欄；題目要求 UDP，必須用版本文件或封包確認。</p></div></div>
+                <div class="answer"><h3>驗收原則</h3><p>Port 514 不等於已證明 UDP；接收端收到符合第 10 題的封包才算完成。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>承接第 10 題訂製分時監控報表 → 編輯 Hit Count 統計組 → Syslog relay</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>來源條件</td><td>第 10 題完整 SSL-VPN 登入條件</td></tr><tr><td>Syslog relay</td><td>勾選</td></tr><tr><td>目的 IP</td><td><code>192.168.11.110</code></td></tr><tr><td>Port</td><td><code>514</code></td></tr><tr><td>協定</td><td>UDP（表單未顯示，需另驗）</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先完成並儲存第 10 題，確認 SSL-VPN 成功／失敗事件能命中。</li><li>重新編輯「SSL-VPN登入行為監控」，進入 Hit Count 統計組；不要誤進整份報表的告警通報服務。</li><li>勾選 Syslog relay。</li><li>Relay IP 填 <code>192.168.11.110</code>，Port 填 <code>514</code>。</li><li>若版本提供協定選項，明確選 UDP；若沒有，先查該版本 relay 的實作或設定。</li><li>儲存統計組，再儲存整份報表，確認監控與 relay 都啟用。</li><li>在 <code>192.168.11.110</code> 啟動接收服務或封包擷取，於 LAB 產生一筆符合條件的 SSL-VPN 登入事件。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>接收端可看到來源為 N-Cloud、目的 Port 514 的 UDP 封包。</li><li>收到的內容對應本次 SSL-VPN 登入，而不是其他 Syslog。</li><li>重開報表後 relay IP／Port 仍存在。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>只填表未儲存，接收端不會有資料。</li><li>把「Syslog 告警通報服務」誤當 Hit Count 的事件 relay。</li><li>未取得 UDP 證據前，狀態只能標「待核對」。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q12">
               <summary><span class="qno">Q12</span><span class="qtitle"><strong>外對內重要服務 Port 排名</strong><small>五種服務 · 六個排名欄位</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同條件</h3><p>Syslog、!Home → Home、Hit Count，目的 Port 為 23、22、3389、1433、389，五者為 OR 集合。</p></div><div class="compare-box"><h3>六個排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析、目的 Port、目的 Port 解析。</p></div></div><div class="answer"><h3>容易填錯的地方</h3><p>要選「目的 Port」，不是來源端的臨時 Port；LDAP 依題目使用 389，不用 LDAPS 636 取代。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同條件</h3><p>Syslog、!Home → Home、Hit Count；五個目的 Port 是 OR 集合。</p></div><div class="compare-box"><h3>六個排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析、目的 Port、目的 Port 解析。</p></div></div>
+                <div class="answer"><h3>容易填錯</h3><p>要選目的 Port，不是來源端臨時 Port；LDAP 依題目使用 389，不用 636 取代。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → Top N → Top N 報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog</td></tr><tr><td>來源／目的</td><td>!Home → Home</td></tr><tr><td>目的服務</td><td>telnet、ssh、windows-remote-desktop、ms-sql-server、ldap</td></tr><tr><td>標準 Port</td><td>23、22、3389、1433、389</td></tr><tr><td>排序欄位</td><td>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析、目的 Port、目的 Port 解析</td></tr><tr><td>排序數值</td><td>Hit Count</td></tr></tbody></table></div>
+                  <ol class="steps"><li>製作依據選 Syslog，確認設備日誌有來源／目的 IP 與目的 Port。</li><li>來源 IP 選 Home 後按「忽視」，形成 <code>!Home</code>；目的 IP 選 Home 後按「新增」。</li><li>打開「Port 過濾－目的 Port」，依序加入 telnet、ssh、windows-remote-desktop、ms-sql-server、ldap。</li><li>核對這五個名稱解析在考場仍對應 23、22、3389、1433、389；若被自訂，應以題目 Port 為準。</li><li>移除預設排序欄位，依題目順序加入六個欄位。</li><li>排序數值選 Hit Count，執行短時間查詢檢查欄位是否有值。</li><li>按儲存查詢條件，名稱填「公司外對內部重要服務port 連線排名」；題目未要求日報表，不自行加排程。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>結果每筆都是外部來源、內部目的與五個指定 Port 之一。</li><li>六個欄位都顯示，目的 Port 解析能對上服務名稱。</li><li>重新開啟報表後，五個 Port 與六個欄位沒有遺失。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>五個 Port 是 OR，不是要求一筆事件同時滿足五個 Port。</li><li>來源 Port 通常是臨時 Port，選錯會得不到題目結果。</li><li>Hit Count 是日誌筆數，不保證等於去重後的連線 Session。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q13">
               <summary><span class="qno">Q13</span><span class="qtitle"><strong>公司員工瀏覽外部網站排名</strong><small>目的主機名稱 · Hit Count</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>內對外流量，以「目的主機名稱」呈現外部網站，不用來源主機名稱或設備名稱代替。</p></div><div class="compare-box"><h3>同事實機補充</h3><p>Syslog、Home → !Home、目的 Port HTTP／HTTPS，排序數值為 Hit Count。</p></div></div><div class="answer"><h3>完成條件</h3><p>查詢結果必須真的顯示外部網站 FQDN。若目的主機名稱為空白或只有 IP，應先檢查 Web／Proxy／TLS 網站名稱資料是否被收集。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>內對外，以「目的主機名稱」呈現外部網站。</p></div><div class="compare-box"><h3>實機補充</h3><p>Syslog、Home → !Home、HTTP／HTTPS、Hit Count。</p></div></div>
+                <div class="answer"><h3>完成條件</h3><p>結果必須真的顯示外部網站 FQDN；若只有 IP，先修資料收集，不要把來源主機名稱拿來代替。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>報表 → Top N → Top N 報表</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>欄位</th><th>設定值</th></tr></thead><tbody><tr><td>製作依據</td><td>Syslog（需含網站名稱）</td></tr><tr><td>來源／目的</td><td>Home → !Home</td></tr><tr><td>目的 Port</td><td>http、https（常見 80／443）</td></tr><tr><td>排序依據</td><td>目的主機名稱</td></tr><tr><td>排序／顯示數值</td><td>Hit Count</td></tr><tr><td>報表名稱</td><td>公司員工瀏覽外部網站排名</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先在事件查詢抽看 Web／Proxy／Fortigate 日誌，確認「目的主機名稱」欄能看到外部 FQDN。</li><li>進入 Top N，製作依據選 Syslog。</li><li>來源 IP 選 Home 並新增；目的 IP 選 Home 後按忽視，形成 <strong>Home → !Home</strong>。</li><li>目的 Port 加入 http、https；若環境有 Proxy 或非標準 Web Port，先依實際日誌判斷是否需補充。</li><li>排序依據只選「目的主機名稱」，排序數值與顯示數值選 Hit Count。</li><li>執行查詢，確認結果是網站 FQDN，而不是來源電腦名稱、設備名稱或全空白。</li><li>儲存名稱填「公司員工瀏覽外部網站排名」；題目未要求日報表，不額外設定排程。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>開啟幾個測試網站後，排名能看到目的網站名稱與次數。</li><li>抽樣事件方向為內對外，目的 Port 符合 Web 流量。</li><li>結果不把同一個內部來源主機名稱誤當外部網站。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>選「來源主機名稱」會變成員工電腦排名。</li><li>只有 DNS 解析不一定能代表實際瀏覽；應以 Web／Proxy／TLS 日誌欄位為準。</li><li>HTTPS 若未提供 SNI／Host 等資料，目的主機名稱可能為空，需先補資料來源。</li></ul>
+                </div>
+              </div>
             </details>
 
             <details class="question" id="q14">
               <summary><span class="qno">Q14</span><span class="qtitle"><strong>資安與服務監控戰情儀表板</strong><small>五個指定元件</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
-              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><ul><li>公司對外流量</li><li>SSL-VPN 登入監控</li><li>情資 IP 連線監控</li><li>即時網路攻擊流量地球儀</li><li>公司首頁連線監控</li></ul></div><div class="compare-box"><h3>同事實機補充</h3><p>地球儀元件可選「ATD 異常流量即時分析」；但前面各題都未儲存為正式來源。</p></div></div><div class="answer"><h3>完成條件</h3><p>先建立並驗證第 5、6、9、10 題的正式來源，再逐一綁定元件並確認有資料。只有地球模型、沒有攻擊線條或數值，不算完成驗收。</p></div></div>
+              <div class="question-body">
+                <div class="compare-grid"><div class="compare-box"><h3>五個元件</h3><ul><li>公司對外流量</li><li>SSL-VPN 登入監控</li><li>情資 IP 連線監控</li><li>即時網路攻擊流量地球儀</li><li>公司首頁連線監控</li></ul></div><div class="compare-box"><h3>實機補充</h3><p>地球儀可選「ATD 異常流量即時分析」；其他元件必須先有第 5、6、9、10 題的正式來源。</p></div></div>
+                <div class="answer"><h3>完成條件</h3><p>五個元件都綁定正確資料來源且有資料。只有空的地球模型或未綁定卡片，不算完成。</p></div>
+                <div class="manual">
+                  <h3>逐步設定</h3><p class="route"><strong>位置：</strong>Dashboard → 列表 → 新增</p>
+                  <div class="table-wrap field-table"><table><thead><tr><th>題目元件</th><th>應綁定來源</th></tr></thead><tbody><tr><td>公司對外流量</td><td>第 5 題「公司內對外流量即時監控」</td></tr><tr><td>SSL-VPN 登入監控</td><td>第 10 題「SSL-VPN登入行為監控」</td></tr><tr><td>情資 IP 連線監控</td><td>第 6 題「情資IP連線排名」</td></tr><tr><td>網路攻擊地球儀</td><td>ATD 異常流量即時分析</td></tr><tr><td>公司首頁連線監控</td><td>第 9 題 Web Server PM monitor</td></tr></tbody></table></div>
+                  <ol class="steps"><li>先確認第 5、6、9、10 題都已儲存、啟用且各自有資料；來源不存在時先回前題完成。</li><li>到 Dashboard 列表按新增，名稱可填「公司資安與服務監控戰情儀表板」。</li><li>加入流量／Top N 類元件，標題填「公司對外流量」，資料來源選第 5 題報表。</li><li>加入監控元件「SSL-VPN登入監控」，綁定第 10 題，確認能顯示命中數或最近告警。</li><li>加入 Top N 元件「情資IP連線監控」，綁定第 6 題日報表或可用的即時查詢來源。</li><li>加入地球儀元件，標題填「即時網路攻擊流量」，資料來源選「ATD 異常流量即時分析」，明細選 ATD 明細，範圍選全部，時間可先選 1 小時。</li><li>加入 Web／PM 元件「公司首頁連線監控」，綁定第 9 題 Web Server PM monitor。</li><li>調整版面，讓五項在第一個 Dashboard 畫面都可辨識；逐一按預覽檢查標題與來源。</li><li>儲存 Dashboard，離開後從列表重新開啟，確認配置與綁定沒有遺失。</li></ol>
+                  <h4>驗收</h4><ul class="checklist"><li>五個元件都在，標題不混淆且資料來源正確。</li><li>流量、VPN、情資、Web PM 至少能看到最近數值／狀態。</li><li>地球儀有 ATD 攻擊事件線條或數值；若沒有，需確認 ATD 資料與地理資訊，不可只看模型。</li><li>重新登入或重新開啟 Dashboard 後仍完整。</li></ul>
+                  <h4>常見錯誤</h4><ul class="warnings"><li>用別人的既有報表替代自己前題建立的來源，名稱相似但條件可能不同。</li><li>元件已拖入但未選資料來源，畫面存在不等於功能完成。</li><li>「1 小時」是顯示資料區段，不代表更新頻率已驗證。</li></ul>
+                </div>
+              </div>
             </details>
           </div>
         </section>
