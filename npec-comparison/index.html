@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NPEC 歷史實作題第 4～14 題：題目推導答案與同事實機表單示範的逐題比較、修正與驗收判斷。">
+  <meta name="theme-color" content="#f7f6f3">
+  <title>NPEC 第 4～14 題｜答案與實機示範比對</title>
+  <style>
+    :root {
+      --paper: #fff;
+      --canvas: #f7f6f3;
+      --ink: #262522;
+      --muted: #6b6760;
+      --line: rgba(38, 37, 34, .13);
+      --blue: #1769aa;
+      --blue-soft: #edf6fd;
+      --green: #26734d;
+      --green-soft: #edf7f1;
+      --amber: #9a5c00;
+      --amber-soft: #fff6df;
+      --red: #a33b34;
+      --red-soft: #fff0ed;
+      --gray-soft: #f0efec;
+      --shadow: 0 16px 45px rgba(39, 37, 32, .07), 0 2px 8px rgba(39, 37, 32, .04);
+      --radius: 16px;
+      --wrap: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    a { color: var(--blue); }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid rgba(23, 105, 170, .35); outline-offset: 3px; }
+    .skip-link {
+      position: fixed; left: 16px; top: -60px; z-index: 99;
+      padding: 10px 14px; border-radius: 8px; background: var(--ink); color: white;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 246, 243, .9);
+      backdrop-filter: blur(16px);
+    }
+    .topbar-inner {
+      width: min(calc(100% - 32px), var(--wrap)); min-height: 64px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 750; }
+    .brand-mark {
+      width: 32px; height: 32px; display: grid; place-items: center;
+      border-radius: 8px; color: white; background: var(--ink); font-size: 14px;
+    }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .top-actions a, .top-actions button {
+      min-height: 40px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+      color: var(--ink); background: rgba(255,255,255,.72); text-decoration: none; font: inherit; font-size: 14px; font-weight: 650; cursor: pointer;
+    }
+    .top-actions a:hover, .top-actions button:hover { background: white; border-color: rgba(38,37,34,.25); }
+
+    .wrap { width: min(calc(100% - 32px), var(--wrap)); margin-inline: auto; }
+    .hero { padding: 76px 0 56px; }
+    .eyebrow { margin: 0 0 14px; color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { text-wrap: balance; }
+    h1 { max-width: 900px; margin: 0; font-size: clamp(38px, 6vw, 68px); line-height: 1.06; letter-spacing: -.045em; }
+    .hero-lead { max-width: 780px; margin: 24px 0 0; color: var(--muted); font-size: clamp(18px, 2.1vw, 22px); line-height: 1.55; }
+    .hero-lead strong { color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .pill { display: inline-flex; align-items: center; min-height: 30px; padding: 4px 10px; border-radius: 999px; background: white; border: 1px solid var(--line); color: var(--muted); font-size: 13px; font-weight: 650; }
+
+    .verdict {
+      margin-top: 36px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--paper); box-shadow: var(--shadow); display: grid; grid-template-columns: 190px 1fr; gap: 28px;
+    }
+    .verdict-label { color: var(--blue); font-weight: 800; letter-spacing: .05em; }
+    .verdict h2 { margin: 0; font-size: clamp(24px, 3vw, 36px); line-height: 1.2; letter-spacing: -.025em; }
+    .verdict p { margin: 12px 0 0; color: var(--muted); }
+
+    .layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 42px; align-items: start; padding-bottom: 96px; }
+    .sidebar { position: sticky; top: 88px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.78); }
+    .sidebar strong { display: block; margin-bottom: 10px; font-size: 13px; }
+    .sidebar nav { display: grid; gap: 3px; }
+    .sidebar a { padding: 7px 9px; border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 14px; }
+    .sidebar a:hover { color: var(--ink); background: var(--gray-soft); }
+    .sidebar .back { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--blue); font-weight: 650; }
+
+    .content { min-width: 0; }
+    .section { padding: 36px 0 20px; }
+    .section:first-child { padding-top: 0; }
+    .section-heading { margin-bottom: 22px; }
+    .section-heading h2 { margin: 0; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -.035em; }
+    .section-heading p { max-width: 720px; margin: 10px 0 0; color: var(--muted); }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .status { display: inline-flex; align-items: center; width: fit-content; min-height: 28px; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
+    .same { color: var(--green); background: var(--green-soft); }
+    .refine { color: var(--amber); background: var(--amber-soft); }
+    .correct { color: var(--red); background: var(--red-soft); }
+    .unknown { color: var(--muted); background: var(--gray-soft); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    table { width: 100%; border-collapse: collapse; min-width: 690px; }
+    th, td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); background: #fbfaf8; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+    td:first-child { width: 76px; font-weight: 800; }
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fcfbf9; }
+    td a { color: inherit; text-decoration: none; }
+
+    .notice { padding: 20px 22px; border-radius: 12px; background: var(--blue-soft); }
+    .notice h3 { margin: 0; font-size: 18px; }
+    .notice p { margin: 7px 0 0; color: #34586f; }
+
+    .question-list { display: grid; gap: 14px; }
+    details.question { border: 1px solid var(--line); border-radius: 14px; background: white; overflow: hidden; }
+    details.question[open] { box-shadow: 0 8px 26px rgba(38, 37, 34, .055); }
+    .question summary {
+      list-style: none; min-height: 82px; padding: 18px 20px; cursor: pointer;
+      display: grid; grid-template-columns: 54px minmax(0,1fr) auto 24px; align-items: center; gap: 14px;
+    }
+    .question summary::-webkit-details-marker { display: none; }
+    .qno { color: var(--muted); font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .qtitle strong { display: block; font-size: 18px; line-height: 1.35; }
+    .qtitle small { display: block; margin-top: 3px; color: var(--muted); font-size: 13px; }
+    .chevron { width: 10px; height: 10px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .2s; }
+    details[open] .chevron { transform: rotate(225deg); }
+    .question-body { padding: 0 20px 24px 88px; border-top: 1px solid var(--line); }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 20px; }
+    .compare-box { padding: 18px; border-radius: 10px; background: var(--canvas); }
+    .compare-box h3 { margin: 0 0 8px; color: var(--muted); font-size: 13px; letter-spacing: .05em; }
+    .compare-box p, .compare-box ul { margin: 0; }
+    .compare-box ul { padding-left: 20px; }
+    .answer { margin-top: 16px; padding: 18px; border: 1px solid rgba(38,37,34,.11); border-radius: 10px; }
+    .answer h3 { margin: 0 0 8px; font-size: 16px; }
+    .answer p { margin: 0; color: var(--muted); }
+    code { padding: 2px 6px; border-radius: 5px; color: #374151; background: #eeece8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+
+    .completion-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .completion-card { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .completion-card h3 { margin: 0 0 6px; font-size: 17px; }
+    .completion-card p { margin: 0; color: var(--muted); }
+
+    .source-note { margin-top: 18px; color: var(--muted); font-size: 14px; }
+    .source-note strong { color: var(--ink); }
+    footer { border-top: 1px solid var(--line); background: var(--paper); }
+    .footer-inner { width: min(calc(100% - 32px), var(--wrap)); margin: auto; padding: 28px 0; display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: 14px; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; gap: 12px; }
+      .sidebar { position: static; overflow-x: auto; padding: 10px; }
+      .sidebar strong { display: none; }
+      .sidebar nav { display: flex; width: max-content; }
+      .sidebar .back { margin: 0 0 0 8px; padding: 7px 9px; border: 0; }
+      .verdict { grid-template-columns: 1fr; gap: 10px; }
+      .question-body { padding-left: 20px; }
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      html { scroll-padding-top: 70px; }
+      .topbar { overflow: hidden; }
+      .topbar-inner { min-height: 58px; }
+      .brand span:last-child { display: none; }
+      .top-actions a, .top-actions button:last-child { display: none; }
+      .hero { padding: 48px 0 36px; }
+      .verdict { padding: 22px; }
+      .question summary { grid-template-columns: 42px minmax(0,1fr) 18px; gap: 10px; padding: 16px; }
+      .question summary .status { display: none; }
+      .question-body { padding: 0 16px 20px; }
+      .completion-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media print {
+      :root { --canvas: #fff; }
+      body { font-size: 11pt; }
+      .topbar, .sidebar, .top-actions { display: none !important; }
+      .hero { padding: 20px 0; }
+      .layout { display: block; }
+      .question-list { display: block; }
+      details.question { break-inside: avoid; margin: 0 0 12px; }
+      details.question > * { display: block; }
+      .question summary { display: grid; }
+      .question-body { display: block !important; }
+      .chevron { display: none; }
+      .verdict, details.question { box-shadow: none; }
+      footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../" aria-label="回 N-Cloud Learning 首頁"><span class="brand-mark">N</span><span>N-Cloud Learning</span></a>
+      <div class="top-actions">
+        <a href="#questions">逐題比較</a>
+        <button type="button" id="expand-all">全部展開</button>
+        <button type="button" onclick="window.print()">列印／存 PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="page-title">
+      <p class="eyebrow">NPEC HISTORICAL PRACTICE · COMPARISON REPORT</p>
+      <h1 id="page-title">我的答案，和同事的實機示範一樣嗎？</h1>
+      <p class="hero-lead">第 4～14 題的核心方向<strong>大致一致，但不是完全相同</strong>。第 6 題需要修正我的原說法；其他幾題則由同事的實機畫面補足更精確的欄位。</p>
+      <div class="hero-meta" aria-label="文件範圍">
+        <span class="pill">比較範圍：第 4～14 題</span>
+        <span class="pill">依題目條件推導，非官方答案表</span>
+        <span class="pill">不包含認證資訊</span>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">一句話結論</div>
+        <div><h2>解題邏輯多數相同；實作完成度不能混為一談。</h2><p>同事的頁面主要是「未儲存的表單示範」，可佐證欄位與操作方向，但不等於報表、監控、轉發或 Dashboard 已經完成驗收。</p></div>
+      </div>
+    </section>
+
+    <div class="layout wrap">
+      <aside class="sidebar" aria-label="本頁導覽">
+        <strong>本頁內容</strong>
+        <nav>
+          <a href="#overview">快速總覽</a>
+          <a href="#corrections">重要修正</a>
+          <a href="#questions">逐題比較</a>
+          <a href="#completion">完成度判斷</a>
+          <a href="#limits">比較界線</a>
+          <a class="back" href="../">回學習首頁</a>
+        </nav>
+      </aside>
+
+      <div class="content">
+        <section class="section" id="overview">
+          <div class="section-heading"><p class="eyebrow">AT A GLANCE</p><h2>快速總覽</h2><p>「一致」代表解題條件相同；「需補強」代表方向相同，但同事實機頁提供了更精確欄位；「需修正」代表我原本的資料來源描述不夠準確。</p></div>
+          <div class="legend" aria-label="狀態說明">
+            <span class="status same">一致</span><span class="status refine">需補強</span><span class="status correct">需修正</span><span class="status unknown">無法比較</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>題目</th><th>比對結果</th><th>核心判斷</th></tr></thead>
+              <tbody>
+                <tr><td><a href="#q4">第4題</a></td><td><span class="status refine">需補強</span></td><td>四組 CIDR 相同；要明確勾選每一組的 Flow 分析。</td></tr>
+                <tr><td><a href="#q5">第5題</a></td><td><span class="status same">一致</span></td><td>Flow、Home → !Home、Byte 與四個排名欄位相同。</td></tr>
+                <tr><td><a href="#q6">第6題</a></td><td><span class="status correct">需修正</span></td><td>應精確寫成 Syslog＋情資比對＋Hit Count。</td></tr>
+                <tr><td><a href="#q7">第7題</a></td><td><span class="status refine">需補強</span></td><td>邏輯相同；同事用其他 NAS 示範，未完成題目指定設備。</td></tr>
+                <tr><td><a href="#q8">第8題</a></td><td><span class="status refine">需補強</span></td><td>方向相同；只匯 Syslog 不代表涵蓋所有 Flow。</td></tr>
+                <tr><td><a href="#q9">第9題</a></td><td><span class="status same">一致</span></td><td>URL、80 分、10 秒與 OR 告警條件相同。</td></tr>
+                <tr><td><a href="#q10">第10題</a></td><td><span class="status refine">需補強</span></td><td>條件相同；實機頁補出 ssl-web、vpn 與來源使用者。</td></tr>
+                <tr><td><a href="#q11">第11題</a></td><td><span class="status refine">需補強</span></td><td>IP／514／UDP 要求相同，但 UDP 尚未由表單或封包驗證。</td></tr>
+                <tr><td><a href="#q12">第12題</a></td><td><span class="status same">一致</span></td><td>外對內、五個 Port、六個排名欄位相同。</td></tr>
+                <tr><td><a href="#q13">第13題</a></td><td><span class="status refine">需補強</span></td><td>目的主機名稱相同；實機頁另補 HTTP／HTTPS 與 Hit Count。</td></tr>
+                <tr><td><a href="#q14">第14題</a></td><td><span class="status same">一致</span></td><td>五個 Dashboard 元件相同，但尚未完成綁定。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="corrections">
+          <div class="section-heading"><p class="eyebrow">KEY CORRECTION</p><h2>最重要的修正：第 6 題</h2></div>
+          <div class="notice"><h3>不要再寫成泛稱的 Flow／連線資料</h3><p>依同事實機版本，較精確的做法是：<strong>Syslog → 來源 !Home → 目的 Home → 啟用情資比對 → 以 Hit Count 排名 → 儲存為日報表</strong>。排名欄位為來源 IP、目的 IP、目的 IP 名稱解析。</p></div>
+        </section>
+
+        <section class="section" id="questions">
+          <div class="section-heading"><p class="eyebrow">QUESTION BY QUESTION</p><h2>第 4～14 題逐題比較</h2><p>展開每題可看到「我的原答案」「同事實機頁」以及考試時建議採用的最終寫法。</p></div>
+          <div class="question-list">
+            <details class="question" id="q4" open>
+              <summary><span class="qno">Q04</span><span class="qtitle"><strong>公司單位與 IP 對應</strong><small>Home／Domain 與三個單位網段</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>我的原答案</h3><p>建立 <code>192.168.0.0/16</code>、主機、OA、訪客網段並啟用流量分析。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>四組 CIDR 相同，並明確在 Home 與三個子網段上都勾選「啟用 Flow 分析」。</p></div></div><div class="answer"><h3>考試建議答案</h3><p>Home／Domain <code>192.168.0.0/16</code>、主機 <code>192.168.1.0/24</code>、OA <code>192.168.2.0/23</code>、訪客 <code>192.168.4.0/23</code>；每一筆都核對 Flow 欄為啟用。「Flow 分析」不是「IP 名稱解析分享」。</p></div></div>
+            </details>
+
+            <details class="question" id="q5">
+              <summary><span class="qno">Q05</span><span class="qtitle"><strong>公司內對外流量即時監控</strong><small>Flow · Home → !Home</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Flow、來源 Home、目的 !Home、Byte／速率、時間單位 1 分鐘內。</p></div><div class="compare-box"><h3>排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析；排序數值 Byte。</p></div></div><div class="answer"><h3>容易填錯的地方</h3><p>「公司內對外流量即時監控」要填在整份<strong>分時監控報表名稱</strong>，不能只拿 TopN 子項名稱代替。</p></div></div>
+            </details>
+
+            <details class="question" id="q6">
+              <summary><span class="qno">Q06</span><span class="qtitle"><strong>情資 IP 連線排名</strong><small>Syslog · !Home → Home · 日報表</small></span><span class="status correct">需修正</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>我的原答案問題</h3><p>寫成「Flow／連線事件」太寬，沒有對到這版實機表單的精確資料來源與統計方式。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>Syslog、!Home → Home、啟用情資比對，以 Hit Count 排名，僅勾日報表。</p></div></div><div class="answer"><h3>修正後答案</h3><p>排序欄位使用「來源 IP、目的 IP、目的 IP 名稱解析」。最後一欄用來呈現目的 IP 所屬單位；正式驗收還要確認實際命中情資的是來源 IP。</p></div></div>
+            </details>
+
+            <details class="question" id="q7">
+              <summary><span class="qno">Q07</span><span class="qtitle"><strong>檔案伺服器讀取資料排名</strong><small>來源使用者 · Byte · 日報表</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、讀取事件、來源使用者分組、Byte 排名、日報表；不能用 Hit Count 代替讀取檔案大小。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>實機找不到題目指定的 <code>192.168.11.100</code>，因此使用另一台既有 Synology NAS 示範。</p></div></div><div class="answer"><h3>完成條件</h3><p>考試要使用題目指定設備，並確認實際日誌中的 read／File、來源使用者與 Bytes 都有值。用其他 NAS 截圖只能證明操作方法，不能算正式完成。</p></div></div>
+            </details>
+
+            <details class="question" id="q8">
+              <summary><span class="qno">Q08</span><span class="qtitle"><strong>外部 IP 對主機網段資料下載</strong><small>!Home → 192.168.1.0/24 · 完整日曆日</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>來源 !Home、目的 <code>192.168.1.0/24</code>，指定攻擊當日 00:00:00～23:59:59，儲存指定名稱。</p></div><div class="compare-box"><h3>同事實機頁</h3><p>示範 Syslog，開過事件下載表單但沒有下載；暫存條件之後已刪除。</p></div></div><div class="answer"><h3>資料範圍注意</h3><p>Syslog 與 Flow 是不同資料來源。若稽查要求涵蓋所有 Flow，需另建相同方向與日期的 Flow 條件；不能把單一 Syslog 匯出稱為所有連線資料。</p></div></div>
+            </details>
+
+            <details class="question" id="q9">
+              <summary><span class="qno">Q09</span><span class="qtitle"><strong>Web Server PM 連線品質監控</strong><small>80 分 OR 10 秒逾時</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>名稱 Web Server PM monitor，URL <code>https://192.168.11.121</code>，分數門檻 80，Timeout 10 秒、連續逾時 1 次。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>未找到題目 IP 的關聯設備，監控保持關閉，也未從設備資產樹完成新增。</p></div></div><div class="answer"><h3>告警邏輯</h3><p>效能分數低於 80 <strong>或</strong> Web 請求逾時 10 秒，是 OR，不是兩者同時發生才告警。需關聯題目設備並實際啟用，才能算完成。</p></div></div>
+            </details>
+
+            <details class="question" id="q10">
+              <summary><span class="qno">Q10</span><span class="qtitle"><strong>SSL-VPN 登入行為監控</strong><small>18:00～隔日 08:00 · 一筆門檻</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>Syslog、成功與失敗都納入、跨日 18:00～08:00、Hit Count 1、第一次即告警，並帶出登入帳號。</p></div><div class="compare-box"><h3>同事實機補充</h3><p>課程範例使用應用服務 <code>ssl-web</code>、分類 <code>vpn</code>；帳號欄使用「來源使用者」。</p></div></div><div class="answer"><h3>正式驗收</h3><p><code>ssl-web</code>／<code>vpn</code> 是範例值，仍要先核對考場 Fortigate 的成功與失敗日誌解析結果。若真實欄位不同，應以實際日誌為準。</p></div></div>
+            </details>
+
+            <details class="question" id="q11">
+              <summary><span class="qno">Q11</span><span class="qtitle"><strong>SSL-VPN 登入日誌轉發</strong><small>192.168.11.110 · UDP 514</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>承接第 10 題條件，啟用 Syslog relay，目的 IP <code>192.168.11.110</code>、Port <code>514</code>、題目要求 UDP。</p></div><div class="compare-box"><h3>同事示範限制</h3><p>表單只有 Relay IP 與 Port，沒有協定欄，也未實際啟用或傳送日誌。</p></div></div><div class="answer"><h3>驗收方式</h3><p>不能因為 Port 是 514 就直接宣稱已確認 UDP。需查後端設定／版本文件，或在接收端用封包證據確認 UDP。</p></div></div>
+            </details>
+
+            <details class="question" id="q12">
+              <summary><span class="qno">Q12</span><span class="qtitle"><strong>外對內重要服務 Port 排名</strong><small>五種服務 · 六個排名欄位</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同條件</h3><p>Syslog、!Home → Home、Hit Count，目的 Port 為 23、22、3389、1433、389，五者為 OR 集合。</p></div><div class="compare-box"><h3>六個排名欄位</h3><p>來源 IP、來源 IP 名稱解析、目的 IP、目的 IP 名稱解析、目的 Port、目的 Port 解析。</p></div></div><div class="answer"><h3>容易填錯的地方</h3><p>要選「目的 Port」，不是來源端的臨時 Port；LDAP 依題目使用 389，不用 LDAPS 636 取代。</p></div></div>
+            </details>
+
+            <details class="question" id="q13">
+              <summary><span class="qno">Q13</span><span class="qtitle"><strong>公司員工瀏覽外部網站排名</strong><small>目的主機名稱 · Hit Count</small></span><span class="status refine">需補強</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><p>內對外流量，以「目的主機名稱」呈現外部網站，不用來源主機名稱或設備名稱代替。</p></div><div class="compare-box"><h3>同事實機補充</h3><p>Syslog、Home → !Home、目的 Port HTTP／HTTPS，排序數值為 Hit Count。</p></div></div><div class="answer"><h3>完成條件</h3><p>查詢結果必須真的顯示外部網站 FQDN。若目的主機名稱為空白或只有 IP，應先檢查 Web／Proxy／TLS 網站名稱資料是否被收集。</p></div></div>
+            </details>
+
+            <details class="question" id="q14">
+              <summary><span class="qno">Q14</span><span class="qtitle"><strong>資安與服務監控戰情儀表板</strong><small>五個指定元件</small></span><span class="status same">一致</span><span class="chevron" aria-hidden="true"></span></summary>
+              <div class="question-body"><div class="compare-grid"><div class="compare-box"><h3>共同答案</h3><ul><li>公司對外流量</li><li>SSL-VPN 登入監控</li><li>情資 IP 連線監控</li><li>即時網路攻擊流量地球儀</li><li>公司首頁連線監控</li></ul></div><div class="compare-box"><h3>同事實機補充</h3><p>地球儀元件可選「ATD 異常流量即時分析」；但前面各題都未儲存為正式來源。</p></div></div><div class="answer"><h3>完成條件</h3><p>先建立並驗證第 5、6、9、10 題的正式來源，再逐一綁定元件並確認有資料。只有地球模型、沒有攻擊線條或數值，不算完成驗收。</p></div></div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="completion">
+          <div class="section-heading"><p class="eyebrow">IMPLEMENTATION STATUS</p><h2>「填過表單」不等於「完成題目」</h2><p>分享或複習時，建議用下列四層證據判斷，不要只看截圖上是否有填值。</p></div>
+          <div class="completion-grid">
+            <div class="completion-card"><h3>1. 條件已填</h3><p>只證明欄位存在、值能輸入，尚未改變系統。</p></div>
+            <div class="completion-card"><h3>2. 已儲存／啟用</h3><p>系統中能重新找到設定，狀態與題目要求相符。</p></div>
+            <div class="completion-card"><h3>3. 有實際結果</h3><p>報表、監控、下載、轉發或 Dashboard 真的產生資料。</p></div>
+            <div class="completion-card"><h3>4. 驗收證據完整</h3><p>指定設備、方向、欄位、時間、協定與結果都能逐項核對。</p></div>
+          </div>
+          <p class="source-note"><strong>同事頁面目前多數停在第 1 層。</strong>第 8 題曾建立暫存條件但已刪除；第 9、11、14 題仍有關聯設備、UDP 或來源綁定尚待確認。</p>
+        </section>
+
+        <section class="section" id="limits">
+          <div class="section-heading"><p class="eyebrow">SCOPE & LIMITS</p><h2>比較界線</h2></div>
+          <div class="notice"><h3>這不是官方答案表</h3><p>本頁依歷史題目文字、既有教材與同事的實機表單示範整理。原始 PDF 沒有附官方解答，因此內容應理解為「目前最有依據的實作成果與驗收方式」。版本不同時，選單名稱、日誌分類與欄位值仍需以考場實機為準。</p></div>
+          <p class="source-note"><strong>無法比較：</strong>同事網站只包含第 4～14 題，所以第 1～3 題未納入本頁。內部網站位址、設備認證資訊與其他敏感內容均不在公開頁面中呈現。</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><span>N-Cloud Learning · NPEC 歷史題比較說明</span><a href="../curriculum/#path-certification">回 NPEC 考照路線</a></div></footer>
+
+  <script>
+    const expandButton = document.getElementById('expand-all');
+    const questions = [...document.querySelectorAll('details.question')];
+    let expanded = false;
+    expandButton.addEventListener('click', () => {
+      expanded = !expanded;
+      questions.forEach((question) => { question.open = expanded; });
+      expandButton.textContent = expanded ? '全部收合' : '全部展開';
+    });
+
+    if (location.hash && /^#q(?:[4-9]|1[0-4])$/.test(location.hash)) {
+      const target = document.querySelector(location.hash);
+      if (target?.tagName === 'DETAILS') target.open = true;
+    }
+  </script>
+</body>
+</html>

@@ -106,6 +106,7 @@
 9. **Backend、維護與升級**（81～88）
 
 - [公開系列化學習地圖](https://gm0621.github.io/n-cloud-learning/curriculum/)
+- [NPEC 第 4～14 題答案與實機示範比對](https://gm0621.github.io/n-cloud-learning/npec-comparison/)
 - [完整課次、實作與驗收設計](CURRICULUM.md)
 
 證照系列只依官方公開能力範圍更新，不宣稱或重製真實考題。通知、轉發、聯防、自動執行與升級等高風險內容，只能先在 LAB 驗證並逐項授權。
