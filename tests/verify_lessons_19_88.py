@@ -144,9 +144,18 @@ def verify_pack(number: int, pack: dict) -> None:
     assert pack["sources"]
     assert all(set(item) == {"title", "url", "status", "reviewed", "applies"} for item in pack["sources"])
     for source in pack["sources"]:
-        assert source["status"] in {"VERIFIED_OFFICIAL_PUBLIC", "CONTROLLED_SOURCE_REQUIRED"}
+        assert source["status"] in {
+            "VERIFIED_OFFICIAL_PUBLIC",
+            "CONTROLLED_SOURCE_REQUIRED",
+            "USER_PROVIDED_HISTORICAL",
+        }
         if source["status"] == "CONTROLLED_SOURCE_REQUIRED":
             assert source["url"] == "" and source["reviewed"] == "UNKNOWN"
+        elif source["status"] == "USER_PROVIDED_HISTORICAL":
+            assert source["url"] == ""
+            assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", source["reviewed"])
+            assert "不代表當期官方考綱" in source["applies"]
+            assert "不公開原題" in source["applies"]
         else:
             assert source["url"].startswith("https://") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", source["reviewed"])
 
