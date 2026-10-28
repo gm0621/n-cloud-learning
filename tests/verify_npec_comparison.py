@@ -17,7 +17,9 @@ required_markers = [
     "我的答案，和同事的實機示範一樣嗎？",
     "解題邏輯多數相同；實作完成度不能混為一談。",
     "重新核對後的兩項重要修正",
-    "Syslog＋情資比對＋Hit Count",
+    "區分原題要求與本版示範值",
+    "原題能確定",
+    "本版實機示範",
     "稽核 → Windows 檔案分享 → 檔案讀取",
     "兩套條件不要同時疊加",
     "這不是官方答案表",
@@ -61,6 +63,14 @@ assert "這個選項就是你這版的 Read" in q7
 assert "不要在「動作」勾允許／不允許" in q7
 assert "不要兩套同時使用" in q7
 assert "只有欄位確實為" in q7
+
+# Demonstration-only values must not be promoted to requirements.
+assert "Byte、曲線圖、速率（本版示範值）" in question_blocks[5]
+assert "Syslog（本版示範，待查詢確認）" in question_blocks[6]
+assert "連續逾時次數</td><td>1 次（本版示範值，原題未指定）" in question_blocks[9]
+assert "原題沒有指定 LDAP 必須是 389" in question_blocks[12]
+assert "不能先假定一定是目的主機名稱" in question_blocks[13]
+assert "五項來源尚未綁定或儲存" in question_blocks[14]
 
 route_markers = [
     "系統管理 → IP 名稱解析 → IP 名稱解析列表",
