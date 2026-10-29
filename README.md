@@ -106,6 +106,7 @@
 9. **Backend、維護與升級**（81～88）
 
 - [公開系列化學習地圖](https://gm0621.github.io/n-cloud-learning/curriculum/)
+- [NPEC 2026-10-29 第 1～14 題完整題目與設定詳解](https://gm0621.github.io/n-cloud-learning/npec-20261029/)
 - [NPEC 第 4～14 題答案與實機示範比對](https://gm0621.github.io/n-cloud-learning/npec-comparison/)
 - [完整課次、實作與驗收設計](CURRICULUM.md)
 
